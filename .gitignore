@@ -1,0 +1,10 @@
+# source PDFs (copyrighted review materials)
+*.pdf
+
+# python
+__pycache__/
+*.pyc
+
+# parsed data
+parsed_years.json
+parsed5.json

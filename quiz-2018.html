@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSC Civil Service Exam Reviewer 2026 - 2018 Quiz</title>
+<script>
+  (function () {
+    try { if (localStorage.getItem('csc2026_theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}
+  })();
+</script>
+<style>
+  :root {
+    --bg: #f1f5f9; --card: #ffffff; --ink: #1e293b; --muted: #64748b;
+    --line: #e2e8f0; --accent: #2563eb; --accent2: #1d4ed8;
+    --good: #16a34a; --bad: #dc2626; --warn: #d97706;
+  }
+  [data-theme="dark"] {
+    --bg: #0b1120; --card: #172033; --ink: #e2e8f0; --muted: #94a3b8;
+    --line: #26334a; --accent: #60a5fa; --accent2: #3b82f6;
+    --good: #4ade80; --bad: #f87171; --warn: #fbbf24;
+  }
+  [data-theme="dark"] .bar { background: #26334a; }
+  [data-theme="dark"] .passage { background: #101a2c; color: #cbd5e1; }
+  [data-theme="dark"] .opt.correct, [data-theme="dark"] .opt.reveal { background: #12291d; }
+  [data-theme="dark"] .opt.wrong { background: #2c1518; }
+  [data-theme="dark"] .fb.good { background: #12291d; color: var(--good); border-color: #14532d; }
+  [data-theme="dark"] .fb.bad { background: #2c1518; color: var(--bad); border-color: #7f1d1d; }
+  [data-theme="dark"] .est { background: #16233f; border-color: #2c3e6b; color: #bfdbfe; }
+  [data-theme="dark"] .passbar.pass { background: #12291d; color: var(--good); border-color: #14532d; }
+  [data-theme="dark"] .passbar.fail { background: #2c1518; color: var(--bad); border-color: #7f1d1d; }
+  [data-theme="dark"] .badge.gray { background: #475569; }
+  [data-theme="dark"] .card:hover { box-shadow: 0 3px 10px rgba(0,0,0,.4); }
+  .theme {
+    position: fixed; right: 16px; bottom: 16px; z-index: 20;
+    background: var(--card); color: var(--ink); border: 1.5px solid var(--line);
+    border-radius: 999px; padding: 8px 14px; font-size: .78rem; font-weight: 700;
+    cursor: pointer; box-shadow: 0 2px 10px rgba(2,6,23,.15);
+  }
+  .theme:hover { border-color: var(--accent); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 16px; }
+  header {
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: #fff; padding: 18px 20px; border-radius: 14px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  header h1 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+  header .sub { font-size: .8rem; opacity: .85; }
+  .btn {
+    border: 0; border-radius: 10px; cursor: pointer; font-size: .9rem;
+    font-weight: 600; padding: 9px 14px; background: var(--accent); color: #fff;
+    transition: filter .12s;
+  }
+  .btn:hover { filter: brightness(1.08); }
+  .btn.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn.ghost2 { background: var(--card); color: var(--ink); border: 1.5px solid var(--line); }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .group { margin: 22px 0 6px; font-size: .78rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin: 8px 0; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    transition: box-shadow .12s, transform .12s;
+  }
+  .card:hover { box-shadow: 0 3px 10px rgba(2,6,23,.08); transform: translateY(-1px); }
+  .card .name { font-weight: 600; font-size: .98rem; }
+  .card .cnt { color: var(--muted); font-size: .82rem; }
+  .bar { height: 6px; border-radius: 4px; background: #e7ecf3; margin-top: 8px; overflow: hidden; }
+  .bar > div { height: 100%; background: var(--accent); border-radius: 4px; }
+  .pct { font-size: .78rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .pct.done { color: var(--good); }
+  .mockcard {
+    background: linear-gradient(135deg, #0f172a, #334155);
+    color: #fff; border-radius: 12px; padding: 16px 18px; margin: 14px 0;
+    cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    border: 1px solid #1e293b; transition: box-shadow .12s, transform .12s;
+  }
+  .mockcard:hover { box-shadow: 0 5px 16px rgba(2,6,23,.25); transform: translateY(-1px); }
+  .mockcard .name { font-weight: 800; font-size: 1.05rem; }
+  .mockcard .cnt { font-size: .8rem; opacity: .8; margin-top: 2px; }
+  .mockcard .play { background: var(--accent); border-radius: 999px; width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex: 0 0 auto; }
+  .topline { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .topline .title { font-weight: 700; font-size: 1.02rem; flex: 1; }
+  .timer {
+    background: #0f172a; color: #4ade80; font-family: ui-monospace, Consolas, monospace;
+    font-weight: 700; font-size: 1.05rem; padding: 6px 14px; border-radius: 999px;
+    white-space: nowrap; letter-spacing: .02em;
+  }
+  .timer.urgent { background: var(--bad); color: #fff; animation: pulse 1s infinite; }
+  @keyframes pulse { 50% { opacity: .75; } }
+  .qmeta { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .badge { background: var(--accent); color: #fff; border-radius: 999px;
+    font-size: .74rem; font-weight: 700; padding: 3px 10px; }
+  .badge.warn { background: var(--warn); }
+  .badge.gray { background: #94a3b8; }
+  .scoreline { font-size: .85rem; color: var(--muted); }
+  .qtext { font-size: 1.06rem; font-weight: 600; margin: 6px 0 14px; }
+  .passage {
+    background: #f8fafc; border: 1px solid var(--line); border-left: 4px solid var(--accent);
+    border-radius: 10px; padding: 12px 14px; margin: 10px 0; font-size: .92rem;
+    white-space: pre-wrap; color: #334155; max-height: 220px; overflow: auto;
+  }
+  .opt {
+    display: block; width: 100%; text-align: left; margin: 8px 0;
+    background: var(--card); border: 1.5px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; font-size: .96rem; cursor: pointer; color: var(--ink);
+    transition: border-color .12s, background .12s;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--accent); }
+  .opt:disabled { cursor: default; }
+  .opt .letter { font-weight: 700; margin-right: 8px; color: var(--muted); }
+  .opt.correct { border-color: var(--good); background: #f0fdf4; }
+  .opt.correct .letter { color: var(--good); }
+  .opt.wrong { border-color: var(--bad); background: #fef2f2; }
+  .opt.wrong .letter { color: var(--bad); }
+  .opt.reveal { border-color: var(--good); background: #f0fdf4; }
+  .fb { margin: 12px 0; padding: 12px 14px; border-radius: 10px; font-weight: 600; font-size: .95rem; }
+  .fb.good { background: #f0fdf4; color: var(--good); border: 1px solid #bbf7d0; }
+  .fb.bad { background: #fef2f2; color: var(--bad); border: 1px solid #fecaca; }
+  .nav { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .nav .spacer { flex: 1; }
+  .setrow {
+    display: flex; align-items: center; gap: 10px; background: var(--card);
+    border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; margin: 6px 0;
+    cursor: pointer; font-size: .95rem;
+  }
+  .setrow input { accent-color: var(--accent); width: 17px; height: 17px; }
+  .setrow .name { font-weight: 600; flex: 1; }
+  .setrow .cnt { color: var(--muted); font-size: .8rem; white-space: nowrap; }
+  .est {
+    background: #eef2ff; border: 1px solid #c7d2fe; color: #3730a3; border-radius: 10px;
+    padding: 10px 14px; margin: 12px 0; font-size: .88rem; font-weight: 600;
+  }
+  .summary-box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; text-align: center; margin: 10px 0; }
+  .summary-box .big { font-size: 2.4rem; font-weight: 800; }
+  .summary-box .big.good { color: var(--good); } .summary-box .big.mid { color: var(--warn); } .summary-box .big.bad { color: var(--bad); }
+  .passbar { margin-top: 10px; font-weight: 700; font-size: .9rem; padding: 8px; border-radius: 8px; }
+  .passbar.pass { background: #f0fdf4; color: var(--good); border: 1px solid #bbf7d0; }
+  .passbar.fail { background: #fef2f2; color: var(--bad); border: 1px solid #fecaca; }
+  .review { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 10px 0; }
+  .review .rq { font-weight: 600; margin-bottom: 6px; }
+  .review .ra { font-size: .9rem; color: var(--good); }
+  .small { font-size: .8rem; color: var(--muted); }
+  .foot { text-align: center; color: var(--muted); font-size: .78rem; margin: 24px 0 10px; }
+  .toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+    background: #0f172a; color: #fff; padding: 10px 16px; border-radius: 10px;
+    font-size: .85rem; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 10; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="toast" id="toast"></div>
+<button class="theme" id="themeBtn" onclick="toggleTheme()" title="Toggle dark mode"></button>
+<script>
+const DATA = {"english_grammar": [{"n": 1, "q": "Which sentence uses \"famish\" correctly?", "o": ["After the straight exam, I felt too exhausted and famished to eat my favourite foods.", "I could eat a horse, I am famish now.", "I famished my stomach next time you treat me to a meal out.", "I will bring lots of pizza, that's a famish."], "a": 0}, {"n": 2, "q": "Priscila _______ rather not invest her savings in the stock market.", "o": ["must", "has to", "could", "would"], "a": 3}, {"n": 3, "q": "Did you have any problem ______ our house?", "o": ["search", "to search", "searching", "for searching"], "a": 2}, {"n": 4, "q": "I hope you don't mind _____ joining you.", "o": ["to be", "I had been", "that I may", "may"], "a": 3}, {"n": 5, "q": "Most basketball players are 6 ____ tall or more.", "o": ["foot", "feet", "foots", "feets"], "a": 1}, {"n": 6, "q": "These children _____ how to improvise more props for the play.", "o": ["knew", "knows", "know", "known"], "a": 2}, {"n": 7, "q": "The company will upgrade ______ computer systems next week.", "o": ["there", "their", "its", "it's"], "a": 2}, {"n": 8, "q": "Clara ___________ three thousand words for her essay.", "o": ["have wrote", "has wrote", "have written", "has written"], "a": 3}, {"n": 9, "q": "You have too many _______ but few time to prove you're right.", "o": ["hypothesis", "hypotheses", "hyphothesises", "hypothesess"], "a": 1}, {"n": 10, "q": "Neither Sarah nor Tina _______ the crime yesterday.", "o": ["witness", "witnesses", "witnessed", "witnessing"], "a": 2}, {"n": 11, "q": "You do like going to the party alone. _____ you?", "o": ["Does", "Doesn't", "Do", "Don't"], "a": 3}, {"n": 12, "q": "We had our house _______ in yellow.", "o": ["painting", "painted", "paint", "to paint"], "a": 1}, {"n": 13, "q": "He has been exercising but his immune system was steadily _________.", "o": ["weak", "weaken", "weakened", "weakining"], "a": 3}, {"n": 14, "q": "I was ______ that the weather would be sunny and we would be able to enjoy our swimming.", "o": ["hopeless", "hopeful", "hopelike", "hopely"], "a": 1}, {"n": 15, "q": "I think it's not a great idea. I totally ______.", "o": ["misagree", "unagree", "inagree", "disagree"], "a": 3}, {"n": 16, "q": "So many ___________ I found in the library, now I'm ready to report.", "o": ["information", "informations", "infoes", "infos"], "a": 1}, {"n": 17, "q": "My grandpa always feed his flock of _______ early in the morning.", "o": ["sheeps", "sheep", "ships", "ship"], "a": 1}, {"n": 18, "q": "Happy memories are always remembered, not ________.", "o": ["forget", "forgets", "forgot", "forgotten"], "a": 3}, {"n": 19, "q": "Flight Z735 ______ yesterday. 350 passengers died in that accident.", "o": ["crush", "crushed", "crash", "crashed"], "a": 3}, {"n": 20, "q": "There is a ________ message when you look closely at her painting.", "o": ["hid", "hide", "hided", "hidden"], "a": 3}], "vocabulary": [{"n": 1, "q": "If you are ambivalent with the answers, analyze the given problem.", "o": ["confusion", "innocent", "uncertain", "unaware"], "a": 2}, {"n": 2, "q": "He left the country because of the ominous experiences he had in the past.", "o": ["unforgettable", "threatening", "ugly", "remarkable"], "a": 1}, {"n": 3, "q": "Teenagers are easily susceptible to peer influence.", "o": ["flexible", "inspired", "dependable", "inclined"], "a": 3}, {"n": 4, "q": "My mother is always adamant in eating breakfast before leaving the house.", "o": ["resolute", "uncertain", "forgetful", "clueless"], "a": 0}, {"n": 5, "q": "Reading words without understanding their meaning is futile.", "o": ["helpless", "useless", "unnecessary", "avoidable"], "a": 1}, {"n": 6, "q": "She wears gold but people knows how ostentatious she can be.", "o": ["pretentious", "ambitious", "gorgeous", "rebellious"], "a": 0}, {"n": 7, "q": "He submitted a grotesque artwork that nobody in the class could relate to.", "o": ["different", "weird", "beautiful", "colorful"], "a": 1}, {"n": 8, "q": "Their clandestine affair remained unknown for three years.", "o": ["forbidden", "surprise", "secret", "unacceptable"], "a": 2}, {"n": 9, "q": "They say love is like a firework, a fleeting moment.", "o": ["brief", "unforgettable", "shinny", "remarkable"], "a": 0}, {"n": 10, "q": "Cara is repulsive and rebellious. She always speaks sordid words.", "o": ["dirty", "vulgar", "weird", "bizarre"], "a": 1}, {"n": 11, "q": "Every time I see Cathy looking at me, I feel Euphoria in my bones.", "o": ["gravity", "ecstasy", "erotic", "numb"], "a": 1}, {"n": 12, "q": "I bought this book because when I read the blurb at the back, I fell in love with it.", "o": ["summary", "teaser", "blog", "plot"], "a": 1}, {"n": 13, "q": "Finding a way out of the labyrinth is the last challenge of the competition.", "o": ["castle", "forest", "maze", "box"], "a": 2}, {"n": 14, "q": "There is still love in our hearts amidst our seemingly mundane existence.", "o": ["complicated", "modern", "worldly", "wealthy"], "a": 2}, {"n": 15, "q": "Cassy has a strong penchant in collecting cars.", "o": ["belief", "fondess", "hobby", "route"], "a": 1}, {"n": 16, "q": "Diskettes and CDs are going obsolete.", "o": ["recycled", "refurbished", "updated", "outdated"], "a": 3}, {"n": 17, "q": "The Queen of the Night dances vivaciously.", "o": ["lively", "awkward", "kindly", "sweetly"], "a": 0}, {"n": 18, "q": "The court released a dogmatic statement that made people more hopeful.", "o": ["naive", "unbelievable", "assertive", "unclear"], "a": 2}, {"n": 19, "q": "This generation is prone to plethoric use of mobile gadgets.", "o": ["essential", "crucial", "important", "excessive"], "a": 3}, {"n": 20, "q": "I am usually haphazard in composing my poetry but they turn out so well anyway.", "o": ["disorganized", "blank", "puzzled", "strategic"], "a": 0}], "spelling_idioms": [{"n": 1, "q": "If you don't spill the beans now, you might gonna regret it.", "o": ["spread rumors", "let out a secret", "plant some seeds", "none of the above"], "a": 1}, {"n": 2, "q": "Hey, man, you are absolutely barking up the wrong tree here because I'm innocent.", "o": ["choosing the wrong dog", "giving up a fight", "accusing the wrong person", "setting up an event in a tree"], "a": 2}, {"n": 3, "q": "One proven way to beat an enemy is find his Achilles heel.", "o": ["secret strategy", "amulet", "strong point", "weak spot"], "a": 3}, {"n": 5, "q": "His new Ferrari costs an arm and a leg so he is now looking for another job.", "o": ["very expensive", "got fired", "met an accident", "was stolen"], "a": 0}, {"n": 6, "q": "He married a woman who was born with a silver spoon in her mouth.", "o": ["born very beautiful", "born very poor", "born into a very rich family", "born very talkative"], "a": 2}, {"n": 7, "q": "She has different investments because she doesn't want to put all eggs in one basket.", "o": ["Doesn't want to put all resources in one possibility", "doesn't want to cook everything at once", "doesn't want to go bankrupt", "none of the above"], "a": 0}, {"n": 8, "q": "Whenever his crush passes by the hallway, he's having butterflies on his stomach.", "o": ["he feels sick", "he feels nervous", "he feels like flying", "he feels so handsome"], "a": 1}, {"n": 9, "q": "Even though they had a nasty fight, they decided to bury the hatchet and move on.", "o": ["kill the enemy", "remember the past", "bury the dead", "forgot the past quarrel"], "a": 3}, {"n": 10, "q": "My father always reminds us, \"don't count your chickens before the eggs have hatched.\"", "o": ["Don't eat your eggs before they are cooked.", "Don't make plan for something that might not happen.", "Don't deal with your problems before they are solved.", "All of the above."], "a": 1}, {"n": 11, "q": "iphones became so popular not only to teens, even my grandparents jumped on the bandwagon and bought some.", "o": ["ride on the gadget and sell Apple", "jump for technology and sell iphones", "joined the new trend and bought apple", "bought apple and android"], "a": 2}], "analogy": [{"n": 1, "q": "Iron: metal: : granite: ______", "o": ["rock", "sand", "solid"], "a": 1}, {"n": 2, "q": "Decibel: sound: : volt: ______", "o": ["watts", "fire", "electricity", "lightning"], "a": 2}, {"n": 3, "q": "Coward: brave: : philanthropist: _______", "o": ["selfish", "kind", "pessimist", "optimist"], "a": 0}, {"n": 4, "q": "Logic: reasoning: : ethics: _______", "o": ["character", "behaviour", "subject", "traits"], "a": 1}, {"n": 5, "q": "Antenna: signal: : net: ______", "o": ["web", "catch", "gross", "fish"], "a": 3}, {"n": 6, "q": "Stanza: poem: : act: ______", "o": ["movie", "opera", "song", "lyric"], "a": 1}, {"n": 7, "q": "Astrology: Astronomy: :Alchemy: _________", "o": ["Chemistry", "Biology", "Physics", "Science"], "a": 0}, {"n": 8, "q": "Census: population: : inventory: __________", "o": ["accounting", "merchandise", "cost", "list"], "a": 1}, {"n": 9, "q": "Oath: promise: : contract: __________", "o": ["license", "contact", "agreement", "paper"], "a": 2}, {"n": 10, "q": "Glimmer: Flicker: : murmur: _______", "o": ["whisper", "shout", "rumor", "speak"], "a": 0}, {"n": 11, "q": "Bouquet: flowers: : flock:", "o": ["dogs", "sheep", "ship", "cats"], "a": 1}, {"n": 12, "q": "Rescind: law: : withdraw: _______", "o": ["bank", "candidacy", "deposit", "resume"], "a": 1}, {"n": 13, "q": "Hoax: deceive: : filibuster: ______", "o": ["delay", "refuse", "stop", "none"], "a": 0}, {"n": 14, "q": "Syllabus: course: :agenda: _______", "o": ["subject", "platform", "meeting", "lesson"], "a": 2}, {"n": 15, "q": "Cat: kitten: :horse: _______", "o": ["cab", "puppy", "stallion", "pony"], "a": 3}, {"n": 16, "q": "Evaporate: vapor: : petrify: _______", "o": ["liquid", "stone", "magnify", "cold"], "a": 1}, {"n": 17, "q": "Canvas: painter: : marble: ________", "o": ["sculptor", "rock", "statue", "form"], "a": 0}, {"n": 18, "q": "Hammer: anvil: : pestle: _________", "o": ["ground", "grinder", "mortar", "knife"], "a": 2}, {"n": 19, "q": "Librarian: books: : curator: _______", "o": ["atlas", "encyclopedia", "room", "paintings"], "a": 3}, {"n": 20, "q": "Archive: manuscript: arsenal: ________", "o": ["soldier", "weapon", "castle", "king"], "a": 1}, {"n": 21, "q": "Bodyguard: protection: : mentor: _______", "o": ["advice", "counsel", "teacher", "leader"], "a": 1}, {"n": 22, "q": "Novelist: plot: : Architect: _______", "o": ["building", "design", "blueprint", "house"], "a": 2}, {"n": 23, "q": "Molecule: atoms: : tissue: _______", "o": ["organ", "cells", "body", "neutrons"], "a": 1}, {"n": 24, "q": "Call: telephone: : type: ________", "o": ["cellphone", "ipad", "keyboard", "piano"], "a": 2}, {"n": 25, "q": "Eavesdrop: conversation: : trespass: _________", "o": ["property", "house", "land", "assets"], "a": 0}], "reading": [{"n": 1, "q": "Boracay, the most famous beach in the Philippines, is also known as a blessed island. I have never met anyone who has not been enthralled and fascinated when they visited Boracay. The first time you set foot on its powder-like sand, you'll surely feel lucky to be in a paradise island. The moment you see its crystal pristine water, you'll be so thankful you're alive. Many locals and foreigners go there again and again not only because of the breathtaking view but also because to celebrate life and its blessings. The best title for the above article is:", "o": ["Famous Beach in the Philippines", "The Beach of Boracay", "Boracay, a Blessed Island", "Why People Go to Boracay"], "a": 2}, {"n": 2, "q": "Malaysia Airline Flight MH370's disappearance is still under investigation. Many countries joined in the search for what really happened and where the aircraft is now. The flight lost contact with air traffic controllers about an hour after its take off. The weather was fine when the aircraft was flying so it adds more theories about other possible reasons of the aircraft's fate. The oil slick spotted off Vietnam's coast turned out to be fuel oil used in cargo ships so it has nothing to do with the aircraft. Interpol also says the disappearance of the jet plane has nothing to do with terrorist attack. More questions are adding to this quest and no specific answer is given and proven yet. The above selection supports the idea:", "o": ["That Flight MH370 is somewhere under the sea", "That Flight MH370's disappearance is still a mystery", "That Flight MH370 must have crashed after loss contact", "That Flight MH370 is in Bermuda Triangle"], "a": 1}, {"n": 3, "q": "Flappy Bird, a mobile game created in 2013 by Dong Nguyen from Vietnam became a hit at the start of 2014. At the end of January 2014, it was the most downloaded game in the iOS App Store. The game is extremely addictive and difficult so users strive harder to score higher. Due to its intense popularity, the creator decided to remove it from the App Store. Because of its millions of downloads, Nguyen claimed he was making $50,000 per day from it. The demand of Flappy Bird made some gadgets owners to sell their devices with Flappy Bird installed for twice or thrice their original price. What is the best title for the above article?", "o": ["Most Downloaded Game", "The Demand of Flappy Bird Game", "Flappy Bird App", "The Rise of Game Apps"], "a": 1}, {"n": 4, "q": "According to NASA, effects that scientists had predicted in the past would result from global climate change are now occurring like loss of sea ice, accelerated sea level rise and longer, more intense heat waves. Even our Earth's average temperature has increased about 1 degree in Fahrenheit in the 20th century. Many experts and scientists believe that global temperature will continue to rise from 2.5 to degrees Fahrenheit over the next century. Which of the following conclusions best summarizes the selection above?", "o": ["Climate change will continue to get worse until humanity takes serious actions to stop it.", "Global climate change is happening on earth now.", "The effects of climate change are getting extremely dangerous.", "Global climate change and its effects are occurring and are likely to increase over time."], "a": 3}, {"n": 5, "q": "Mark Zuckerberg, Co-Founder and CEO of Facebook spoke with President Barack Obama to discuss about internet privacy impositions by the U.S. government. Zuckerberg said, \"The Internet works because most people and companies do the same. We work together to create this secure environment and make our shared space even better for the world. This is why I've been so confused and frustrated by the repeated reports of the behavior of the U.S. government. When our engineers work tirelessly to improve security, we imagine we're protecting you against criminals, not our own government. The U.S. government should be the champion for the Internet, not a threat. It needs to be much more transparent about what it's doing, or people will believe the worst. I've called President Obama to express my frustration over the damage the government is creating for all of our future. Unfortunately, it seems like it will take a very long time for true full reform. So it's up to us - all of us - to build the Internet we want. Together, we can build a space that is greater and a more important part of the world than anything we have today, but is also safe and secure. I'm committed to seeing this happen, and you can count on Facebook to do our part.\" Why is Internet Privacy very important to all of us?", "o": ["Because it is not safe to trust anyone with our online accounts.", "Because nobody really owns the internet. It is a free space.", "Because it protects and secures not only our online accounts but also our online activities.", "Because the government's protection is not enough."], "a": 2}, {"n": 6, "q": "Search Engine Optimization a.k.a. SEO is vital for a website to stay successful for a long time. The world of internet continues to evolve so website owners must stay in the game by making updates while practicing effective SEO. Great content and correct SEO are the blood of a website because without them, a site could die. The paragraph is mainly about what?", "o": ["The importance of Search Engine Optimization", "The life of a successful website", "The secrets of making a website successful", "How to apply Search Engine Optimization"], "a": 0}, {"n": 7, "q": "There are around 2 million Filipinos without jobs today. That includes graduates and undergraduates. According to survey, there will be another halfmillion to graduate this year without possible job placements. Unemployed people complain about job shortage. Many go to the cities to apply to some companies but end up going home with nothing. Unemployment rate increases each year even though there are many job fairs. The paragraph states that…", "o": ["Unemployment in the Philippines is common", "Unemployment rate in the Philippines is seriously increasing", "Unemployment in the Philippines must be solved", "Unemployment solutions for Filipinos"], "a": 1}, {"n": 8, "q": "\"In the Olympic Peninsula of northwest Washington State, a small town named Forks exists under a near-constant cover of clouds. It rains on this inconsequential town more than any other place in the United States of America. It was from this town and its gloomy, omnipresent shade that my mother escaped with me when I was only a few months old. It was in this town that I'd been compelled to spend a month every summer until I was fourteen. That was the year I finally put my foot down; these past three summers, my dad, Charlie, vacationed with me in California for two weeks instead. It was to Forks that I now exiled myself - an action that I took with great horror. I detested Forks. I loved Phoenix. I loved the sun and the blistering heat. I loved the vigorous, sprawling city.\" -Stephenie Meyer, \"The Twilight Saga\" Provide the specific setting of the story", "o": ["Phoenix", "Rainy day", "Forks, Washington", "Twilight"], "a": 2}, {"n": 9, "q": "\"It's twenty-five after six and the sky still has some shades of purple and orange…oh well just like me, I am standing here, in this secretive rooftop, overjoyed…yet there are still some fragments of fear and haze… I wonder if the sky is glad and excited about the night or if it is crying over the bright day that passed.\" - Fehl Dungo - \"Higher than the Rooftop\" What is the mood of the story?", "o": ["Happiness", "Sorrow", "Confusion", "Grief"], "a": 2}, {"n": 10, "q": "Investing has been a hot topic for quite a while. Many people especially employees and entrepreneurs don't rely on time deposits and regular savings account to save and earn interests. The most common investments in the Philippines are through real estates, mutual funds and trust funds. Although few people also join trading in the stock market, more and more Filipinos are not reluctant to invest their money and diversify them to different money making wheels. What does the article try to convey?", "o": ["Filipinos are now willing to open different investments.", "Filipinos are wise in saving their money.", "Filipinos rely mainly on savings and deposit accounts.", "Filipinos invest in real estates, mutual funds and trust funds."], "a": 0}], "paragraph_org": [{"n": 1, "q": "A. One effective way is to diversify his funds to different investments like real estate, stocks and money instruments like bonds and trust funds. B. It is always best to expand money to different investment wheels. C. A wise investor must not put all his eggs in one basket. D. He should always consider the risks involved in investing his money.", "o": ["CBAD", "CBDA", "CDAB", "CDBA"], "a": 2}, {"n": 2, "q": "A. It is very vital to have social media presence however personal blogs serve as web domains. B. Most people including celebrities and businessmen have blogs nowadays. C. Therefore, building them will help anyone in promoting himself or his business. D. Apparently blogs are like our offices only they are in the internet.", "o": ["BDAC", "BADC", "BACD", "BDCA"], "a": 1}, {"n": 3, "q": "A. The basic steps in building a website are easy to remember and registering a domain name is the usual priority. B. Designing a layout will come after that. C. Finally, adding more content and social media presence are required to keep your site active. D. Then you need a hosting provider to host your site's content in the World Wide Web.", "o": ["ABCD", "ADBC", "ACBD", "ADCB"], "a": 1}, {"n": 4, "q": "A. Speaking in English every day is also proven effective. B. Another way is watching English movies and TV shows particularly with English subtitles. C. Reading articles in books, newspapers, and magazines is just among the helpful ways. D. There are many ways to improve and develop English proficiency.", "o": ["DCBA", "DACB", "DABC", "DCAB"], "a": 0}, {"n": 5, "q": "A. Others don't realize yet what to pursue because they have many dreams. B. Finding the right course in college is one of the most challenging decisions anyone can make. C. Some people want to pursue their dreams ever since they were just little. D. Indeed destiny is a matter of choice.", "o": ["BDAC", "BCDA", "BADC", "BCAD"], "a": 3}, {"n": 6, "q": "A. While passport, airline tickets and valid IDs are required, proof of financial capacity may be required for visa application. B. Many Filipinos rejoiced hearing that good news. C. The Bureau of Immigration announced recently that proof of financial capacity is not a primary requirement at the airport. D. Positive points go to the bureau for this.", "o": ["CBAD", "CADB", "CABD", "CBDA"], "a": 3}, {"n": 7, "q": "A. This will be one of your tickets to land a job in the government. B. That is why many people apply to take the Career Service examination. C. If you passed the exam, you will get a certificate of eligibility. D. Career Service Eligibility is a major requirement to apply for a job position in the government.", "o": ["DCBA", "DBAC", "DBCA", "DCAB"], "a": 2}, {"n": 8, "q": "A. Your passport will arrive in 7 days if you choose the rush processing. B. Getting a passport is faster nowadays. C. Now, it only takes about 10 working days. D. Compared before, it would take about a month for the regular processing.", "o": ["BCAD", "BDCA", "BADC", "BACD"], "a": 1}, {"n": 9, "q": "A. Facebook has been the number one social network in the web and the world for quite long now. B. Mobile instant messaging apps are also dominating social presence in the internet. C. After many acquisitions, Facebook bought Instagram, one of the fastest growing photo sharing networks. D. Because of that, Facebook acquired WhatsApp, a leading instant chat platform like Kakaotalk.", "o": ["ACBD", "ABCD", "ADCB", "ADBC"], "a": 0}, {"n": 10, "q": "A. They will help you to purchase through zero-interest installment schemes. B. Thus, you must be wise and pay in full if you want to avoid never-ending debts. C. Credit cards are helpful if you know how and when to use them wisely. D. However, they will produce interests from interests if you didn't pay the whole amount at the due date.", "o": ["CDBA", "CABD", "CDAB", "CADB"], "a": 3}], "numerical": [{"n": 1, "q": "2187, 729, 243, 81, 27, 9, ____?", "o": ["6", "3", "4", "2"], "a": 1}, {"n": 2, "q": "1, 4, 9, 16, 25, 36, 49, 64, ___ ?", "o": ["72", "75", "81", "90"], "a": 2}, {"n": 3, "q": "13 -21 34 -55 89 ___?", "o": ["-95", "104", "-123", "-144"], "a": 3}, {"n": 4, "q": "AZ CX EV GT ____?", "o": ["IR KP", "IR KQ", "IS KQ", "IS KP"], "a": 0}, {"n": 5, "q": "A5 D25 G125 J625 M3125 ____?", "o": ["P15525", "P15625", "O15525", "O15625"], "a": 1}, {"n": 6, "q": "What is -25 + 16?", "o": ["9", "-9", "-41", "41"], "a": 1}, {"n": 7, "q": "What is 107 - (-17) ?", "o": ["-90", "90", "124", "-124"], "a": 2}, {"n": 8, "q": "(-9) (-22) = ____?", "o": ["198", "-198", "31", "-31"], "a": 0}, {"n": 9, "q": "(21) (-4) + (8) (-2) = ____?", "o": ["-100", "100", "-23", "23"], "a": 0}, {"n": 10, "q": "(-560) ÷ 7 = ___?", "o": ["-80", "80", "-553", "553"], "a": 0}, {"n": 11, "q": "6/8 + 2 ½ + 4/12 is also the same as?", "o": ["½ + 2.5 + ¼", "½ + 5/2 + 1/6", "¾ + 2.5 + 1/6", "¾ + 5/2 + 1/3"], "a": 3}, {"n": 12, "q": "What is the Least Common Denominator of 1/8, ¾, and 1/16?", "o": ["4", "8", "16", "2"], "a": 2}, {"n": 13, "q": "What is the Greatest Common Factor of 36 and 54?", "o": ["6", "12", "18", "9"], "a": 2}, {"n": 14, "q": "What is the sum of ½ + 8/4 + 6/12 ?", "o": ["15/12", "3/12", "3", "3 1/12"], "a": 2}, {"n": 15, "q": "3/9 x 2/3 = ____", "o": ["6/27", "2/9", "9/18", "1/9"], "a": 1}, {"n": 16, "q": "¾ ÷ 1/8 = ____", "o": ["8", "4", "12", "6"], "a": 3}, {"n": 17, "q": "What is the decimal form of ¾ %?", "o": [".0075", ".075", ".75", ".00075"], "a": 0}, {"n": 18, "q": "Convert 3.4% as a fraction.", "o": ["34/100", ".34/100", "3.4/1000", "3.4/100"], "a": 3}, {"n": 19, "q": "What is ¼ in decimal?", "o": [".025", ".25", "2.5", ".0025"], "a": 1}, {"n": 20, "q": "What is the ratio of ½ to 2/5?", "o": ["3:4", "5:4", "1:3", "2:5"], "a": 1}, {"n": 21, "q": "2.12 is multiplied by 10 to the sixth power is?", "o": ["212.000", "2,120,000", "212,000", "21,200"], "a": 1}, {"n": 22, "q": "25 is multiplied by 10 to the fifth power is?", "o": ["2,500,000", "250,000", "25,000", ".000025"], "a": 0}, {"n": 23, "q": "Find the value of x in the equation: 5x + 25 =10", "o": ["5", "3", "-3", "-5"], "a": 2}, {"n": 24, "q": "If x=8, find the value of y in the equation: 4x - 2y = 28.", "o": ["-4", "-2", "4", "2"], "a": 3}, {"n": 25, "q": "Find the value of x if y= 8 in the equation: 2x + 4y = 50", "o": ["9", "8", "10", "4 Problem Solving / Word Problems:"], "a": 0}, {"n": 26, "q": "Kit is twice as old as his friend Sam. Sam is 5 years older than Cara. In 5 years, Kit will be three times as old as Cara. How old is Sam?", "o": ["2 years old", "3 years old", "4 years old", "5 years old"], "a": 3}, {"n": 27, "q": "James's dad is 5 times older than James and James is twice as old as his sister Sara. In two years, the sum of their ages will be 58. How old is James now?", "o": ["6 years old", "7 years old", "8 years old", "9 years old"], "a": 2}, {"n": 29, "q": "Letty left home and drove at the rate of 50 miles per hour for 2 hours. She stopped for lunch then drove for another 4 hours at 65 mph to reach Los Angeles. How many miles did Letty drive to reach LA?", "o": ["115 miles", "360 miles", "310 miles", "100 miles"], "a": 1}, {"n": 30, "q": "Michelle went to SM for the 3-day sale. She bought a new pair of shoes and paid only P2,450 discounted for 20% off. What was the original price of the shoes?", "o": ["P3,062.50", "P3,260.50", "P3,620.50", "P3,026.50"], "a": 0}], "clerical": [{"n": 1, "q": "Which department of an office is responsible for hiring new personnel?", "o": ["Office of the President", "Accounting Department", "Logistic and Supply", "Human Resource Department"], "a": 3}, {"n": 2, "q": "Which computer program should you go if you want to email a company?", "o": ["Word", "Excel", "Outlook", "Powerpoint"], "a": 2}, {"n": 3, "q": "This is a telephonic transmission of scanned documents of texts and images to a telephone number connected to a printer.", "o": ["Photocopying Machine", "Fax Machine", "Typewriter", "Inkjet Printer"], "a": 1}, {"n": 4, "q": "The chief financial officer is responsible for the financial matters and financial management of a corporation, she is also known as the _______.", "o": ["Auditor", "Treasurer", "Chief Executive Officer", "Manager"], "a": 1}, {"n": 5, "q": "Which department of a company is responsible for cash register operations and payment processing?", "o": ["Cashier", "Billing", "Accounting", "Budget"], "a": 0}, {"n": 6, "q": "What is the correct filing arrangement for the following names?", "o": ["Angeles, Mario P.", "Angeles, Maricel P.", "Angeles, Marissa P.", "Angeles, Maria P."], "a": 0}, {"n": 7, "q": "All of the following items are found in the Official Receipt form except _____.", "o": ["Name and address of the buyer", "Signature of the recipient", "Quantity of the items paid", "Credit Card Number of the customer"], "a": 3}, {"n": 8, "q": "The method of indexing and filing where names are in alphabetized order.", "o": ["Numeric", "Metric", "Geographic", "Alphabetic"], "a": 3}, {"n": 9, "q": "Which is the best way to address a correspondence for the President of the Philippines?", "o": ["His Excellency Rodrigo Duterte", "His Excellency President Rodrigo Duterte", "President Rodrigo Duterte", "President Digong"], "a": 1}, {"n": 10, "q": "How do you address the Queen of England when you talk about her?", "o": ["Her Highness the Queen", "Her Majesty Queen Elizabeth II", "Queen Elizabeth II her Highness", "Queen Elizabeth II her Majesty"], "a": 1}, {"n": 11, "q": "Your boss asked you to send her a soft copy of your latest résumé. An example of a soft copy is:", "o": ["A print out copy usually in a paper", "Original copy written in a paper", "A copy saved in a computer and sent through email", "A copy from a Xerox machine"], "a": 2}, {"n": 12, "q": "When a company asked you to submit your latest CV, what does CV stand for?", "o": ["Curriculum Vitum", "Curriculum Virtue", "Curriculum Vitae", "Curriculum Vital"], "a": 2}, {"n": 13, "q": "It is the section of Accounting Department in a company that records goods and services that it receives and the payments it owes.", "o": ["Budget", "Payroll", "Accounts Payable and Receivable", "Inventory"], "a": 2}, {"n": 14, "q": "Which of the following is not a function of Accounting Department in a big corporation?", "o": ["Prepare Interim Financial Statements", "Inventory Management", "Bank Reconciliation", "Internal and External Auditing"], "a": 3}, {"n": 15, "q": "He is the highest ranking executive manager in a corporation and he is the top person in command in an organization.", "o": ["Chief Financial Executive", "Chief Executive Officer", "Executive Admin. Officer", "Chief Executive Assistant"], "a": 1}, {"n": 16, "q": "Which of the following is not a responsibility of a clerical worker?", "o": ["Marketing and promotion for customers", "Filing and updating purchase orders", "Updating and billing buyer's account", "Answering business emails"], "a": 0}, {"n": 17, "q": "Arrange the proper filing of the following in alphabetical order: A. Lieutenant Colonel Mark David B. Atty. Elen Rodriguez C. Captain Max Aquino D. Dr. Juan Castro", "o": ["CDAB", "CDBA", "BDCA", "BCDA"], "a": 3}, {"n": 18, "q": "Arrange the proper filing of the following in alphabetical order: A. Sec. Dinky Soliman B. Sec. Richard Gordon C. Sec. Voltaire Gazmin D. Sec. Armin Luistro", "o": ["DABC", "DACB", "CBDA", "CBAD"], "a": 0}, {"n": 19, "q": "How much is the present Value-Added-Tax in the Philippines?", "o": ["12% of gross profit", "12% of cost of goods sold", "12% of gross sales", "12% of net income"], "a": 2}, {"n": 20, "q": "This department of the company is responsible for preparing and updating customers' accounts:", "o": ["Purchasing section", "Cashier section", "Billing Section", "Releasing section"], "a": 2}, {"n": 21, "q": "This is a type of document issued by a seller to a buyer relating to a sale transaction and indicating the products, quantities and prices sold to the buyer.", "o": ["Check voucher", "Purchase order", "Delivery receipt", "Sales invoice"], "a": 3}, {"n": 22, "q": "Which of the following is not a usual document used in a sales company?", "o": ["Form 137", "Delivery receipt", "Sales invoice", "Purchase order"], "a": 0}, {"n": 23, "q": "One of the responsibilities of a clerical job is answering and tending phone calls. Which is the best way to answer a phone call in a company?", "o": ["Say \"Hello,\" and wait for the caller to speak.", "Run and get a pen and notebook then pick up the phone.", "Answer the phone politely and give your department or company name.", "Wait for fellow employees to answer the phone."], "a": 2}, {"n": 24, "q": "An example of a hard copy document is:", "o": ["PDF file letter", "Company email message", "A business letter saved in USB", "Business letter in a paper"], "a": 3}, {"n": 25, "q": "What does a CC means in an email message?", "o": ["Copy sent", "Copy furnished", "Copy cat", "Client copy"], "a": 1}], "constitution": [{"n": 1, "q": "What are the 3 main branches of the Government of the Philippines?", "o": ["Senate, Supreme Court, Congress", "Presidential, Unicameral- Parliamentary, Bicameral-Parliamentary", "Legislative, Executive, Judicial", "The Legislature, The Senate, The Supreme Court"], "a": 2}, {"n": 2, "q": "The Supreme Court shall be composed of a Chief Justice and how many Associates Justices?", "o": ["12", "13", "14", "15"], "a": 2}, {"n": 3, "q": "The Commander-in-Chief of all armed forces of the Philippines this 2017 is _________.", "o": ["Air Force Commanding General Jeffrey Delgado", "Rodrigo Duterte", "Chief Justice Maria Lourdes Sereno", "AFP Chief Lieutenant Gen. Emmanuel Bautista"], "a": 1}, {"n": 4, "q": "The executive power shall be vested in the _________.", "o": ["President of the Philippines", "House of Representatives", "The Supreme Court", "The Congress"], "a": 0}, {"n": 5, "q": "The legislative power shall be vested in the _________ which shall consist of a Senate and a House of Representatives.", "o": ["Congress of the Philippines", "House of Ombudsman", "The Supreme Court", "Bureau of Internal Revenue"], "a": 0}, {"n": 6, "q": "The Senate shall be composed of how many senators elected at large by voters of the Philippines?", "o": ["21", "22", "23", "24"], "a": 3}, {"n": 7, "q": "How long shall the term of office of the senators be commenced?", "o": ["3 years", "4 years", "5 years", "6 years"], "a": 3}, {"n": 8, "q": "The term of office of the President and Vice-president of the Philippines shall be up to how many years?", "o": ["3 years", "4 years", "5 years", "6 years"], "a": 3}, {"n": 9, "q": "The members of the House of Representatives shall be elected for a term of _______.", "o": ["3 years", "4 years", "5 years", "6 years"], "a": 0}, {"n": 10, "q": "The following shall be exempted from taxation except:", "o": ["Lands and buildings", "Churches and convents", "Charitable institutions", "Non-profit cemeteries"], "a": 0}, {"n": 11, "q": "The Congress, by a vote of ____ of both Houses in joint session assembled, voting separately, shall have the sole power to declare a state of war.", "o": ["Two-thirds", "One-half", "Three quarters", "Minority"], "a": 0}, {"n": 12, "q": "It states that \"no person shall be deprived of life, liberty, or property without due process of law, nor any person be denied the equal protection of the laws.\"", "o": ["Article VI", "Bill of Rights", "Republic Act", "Court Order"], "a": 1}, {"n": 13, "q": "All of the following is TRUE except:", "o": ["No person shall be compelled to be a witness against himself", "No person shall be imprisoned for non-payment of debt or poll tax.", "No ex post facto law or bill of attainder shall not be enacted.", "No person shall be detained solely by reason of his political beliefs and aspirations."], "a": 2}, {"n": 14, "q": "The following are citizens of the Philippines except:", "o": ["Those fathers or mothers are citizens of the Philippines", "Those who are born before January 17, 1973, of Filipino mothers, who elect Philippine citizenship upon reaching the age of majority", "Those who are naturalized citizens of the Philippines in accordance with law.", "All of the above are true."], "a": 3}, {"n": 15, "q": "It is the right and obligation by all citizens, who are at least 18 years of age, and qualified by law, to vote in the election of national and local officials of the government without literacy,, property, or other substantive requirement.", "o": ["Suffrage", "Election", "Voting power", "Civil Right"], "a": 0}, {"n": 16, "q": "The three inherent powers of the state are the following except one:", "o": ["Police Power", "Power of Eminent Domain", "Power of Taxation", "Power to Impeach"], "a": 3}, {"n": 17, "q": "It is the power of the State to promote public welfare by restraining the use of both liberty and property of all people.", "o": ["Police Power", "Power of Eminent Domain", "Power if Taxation", "Power to Impeach"], "a": 0}, {"n": 18, "q": "It is the power of the State to take properties for the purpose of public use upon payment of just compensation.", "o": ["Police Power", "Power of Eminent Domain", "Power if Taxation", "Power to Impeach"], "a": 1}, {"n": 19, "q": "It is the power of the State to impose charge or burden to persons and properties, and property rights for the purpose of raising revenues to protect the people and extend public projects and services.", "o": ["Police Power", "Power of Eminent Domain", "Power if Taxation", "Power to Impeach"], "a": 2}, {"n": 20, "q": "The following are members of the Constitutional Commission except:", "o": ["Commission on Civil Rights", "Commission on Elections", "Civil Service Commission", "Commission on Audit"], "a": 0}, {"n": 21, "q": "It states that public office is public trust and that public officers and employees must, at all times, be accountable to the people, serve them with utmost responsibility, integrity, loyalty and efficiency; act with patriotism and justice and lead modest lives.", "o": ["Public Trust", "Constitutional Rights", "Accountability", "Responsibility"], "a": 2}, {"n": 22, "q": "Who shall have the exclusive power to initiate all cases of impeachment?", "o": ["House of Blue Ribbon Committee", "House of Representatives", "House of the Senate", "Speaker of the House"], "a": 1}, {"n": 23, "q": "R.A. 6713 is an act to uphold the time-honored principle of public office being a public trust, granting incentives and rewards for exemplary service, enumerating prohibited acts and providing penalties for violations thereof and for other purposes.", "o": ["Preamble", "Code of Ethics", "Code of Government Officials", "Code of Conduct and Ethical Standards for Public Officials and Employees"], "a": 3}, {"n": 24, "q": "The following are duties and responsibilities of Public officials and Employees except:", "o": ["Act promptly on letters, inquiries, calls or any other form of communications sent by the public.", "Submit performance reports of the agency or office regularly", "Accept gifts from the public upon prioritizing their queries.", "Process documents and papers expeditiously."], "a": 2}, {"n": 25, "q": "It is a written instrument containing the proposition and required number of signatories and shall be in a form determined by and submitted to the Commission on Elections.", "o": ["Bill", "Law", "Proposition", "Petition"], "a": 3}, {"n": 26, "q": "It is the electoral process by which an initiative on the Constitution is either approved or rejected by the people.", "o": ["Referendum", "Plebiscite", "Petition", "Initiative"], "a": 1}, {"n": 27, "q": "It is the power of the electorate to approve or reject a legislation through an election called for the purpose.", "o": ["Referendum", "Plebiscite", "Petition", "Initiative"], "a": 0}, {"n": 28, "q": "This law promotes responsible family planning and proper use of reproductive methods to eliminate over-population growth.", "o": ["RH Bill", "Responsible Parenthood and Reproductive Health Law", "Reproductive Law", "Family Planning"], "a": 1}, {"n": 29, "q": "It is a specialized agency of the United Nations that concerns international public health.", "o": ["Department of Health", "World Health Organization", "International Health Organization", "All of the above"], "a": 1}, {"n": 30, "q": "APEC is a summit that promotes free trade and economic cooperation throughout the Asia-Pacific region countries. APEC stands for:", "o": ["Asia Pacific Economic Corporation", "Asia Pacific Economic Cooperation", "Asia Pacific Economic Council", "Asia Pacific Economic Countries"], "a": 1}, {"n": 31, "q": "Association of Southeast Asian Nations (ASEAN) aims to accelerate economic growth, stability, social progress and cultural development in the spirit of equality and partnership to strengthen prosperous and peaceful community along Southeast Asian Nations. Which of the following countries is not a member of ASEAN?", "o": ["Hong Kong", "Philippines", "Singapore", "Thailand"], "a": 0}, {"n": 32, "q": "It is a law in the Philippines that aims to address legal issues concerning online interactions and harmful internet behavior in the Philippines. It aims to prevent and punish cybercrime in the country.", "o": ["Cybersquatting", "Cybercrime Act", "Cybercrime Prevention Act", "Cyber Identity Theft Act"], "a": 2}, {"n": 33, "q": "__________waste breaks down into natural components and can be recycled into the life cycle naturally.", "o": ["Bio-chemical", "Recyclable", "Biodegradable", "Non-biodegradable"], "a": 2}, {"n": 34, "q": "The following are examples of non-biodegradable waste except:", "o": ["Plastics", "Metals", "Styrofoam", "Papers"], "a": 3}, {"n": 35, "q": "It is a project of DOST for more accurate, integrated and responsive disaster prevention and mitigation system especially in high-risk calamity areas of the Philippines.", "o": ["PAGASA", "I am Ready", "DOST-Advanced Disaster Program", "Project NOAH"], "a": 3}, {"n": 36, "q": "PAGASA is the official government agency for weather forecasting, flood control, astronomical observations, and time service. PAGASA stands for _______?", "o": ["Philippine Atmospheric Geographical and Astronomical Services Administration", "Philippine Atmospheric Geophysical and Astronomical Services Administration", "Philippine Atmospheric Geological and Astronomical Services Association", "Philippine Atmospheric Geophysical and Astronomical Services Association"], "a": 1}, {"n": 37, "q": "PHIVOLCS is a branch of DOST to moderate disasters that may arise from volcanic eruptions, earthquakes, tsunami and other related geotectonic phenomena in the Philippines. What is PHIVOLCS?", "o": ["Philippine Institute of Volcanology and Seismology", "Philippine Institute of Volcanic and Seismic Services", "Philippine Institute of Volcanic and Seismology Services", "Philippine Institute of Volcano and Seismic System"], "a": 0}, {"n": 38, "q": "Which of the following is a renewable source of energy?", "o": ["Geothermal energy", "Solar energy", "Wind energy", "All of the above"], "a": 3}, {"n": 39, "q": "It is a process by which thermal radiation from the earth's surface is absorbed by atmospheric greenhouse gases and is re-radiated in all directions.", "o": ["Global Warming", "Greenhouse Effect", "Ozone Layer", "Solar Radiation"], "a": 1}, {"n": 40, "q": "USB is an industry standard that connects computers and electronic devices like keyboards, digicams, portable media devices, disk drivers, smartphones, and network adapters to any computer. USB stands for?", "o": ["Unit Serial Box", "Unit Serial Bolt", "Universal Serial Bin", "Universal Serial Bus"], "a": 3}]};
+const GROUPS = [["English", [["english_grammar", "English Grammar & Correct Usage"], ["vocabulary", "English Vocabulary"], ["spelling_idioms", "Correct Spelling & Idiomatic Expressions"], ["analogy", "Analogy"]]], ["Reading", [["reading", "Reading Comprehension"], ["paragraph_org", "Paragraph Organization"]]], ["Mathematics", [["numerical", "Numerical Reasoning"]]], ["Clerical", [["clerical", "Clerical Operations"]]], ["Civics / General Information", [["constitution", "Constitution & General Information"]]]];
+const LS_KEY = "csc2018_progress_v1";
+const LEVELS = {
+  pro: { name: 'Professional', items: 170, minutes: 190 },
+  sub: { name: 'Subprofessional', items: 165, minutes: 160 }
+};
+const ALL_KEYS = [];
+for (const g of GROUPS) for (const it of g[1]) ALL_KEYS.push(it[0]);
+const SECNAMES = {};
+for (const g of GROUPS) for (const it of g[1]) SECNAMES[it[0]] = it[1];
+
+let progress = {};
+try { progress = JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch (e) {}
+
+let quiz = { mode: 'home', flat: [], idx: 0, done: false, ans: null,
+             timerOn: false, timeLeft: 0, timeTotal: 0, timeUsed: 0, timedOut: false,
+             timerId: null, runAnswered: {}, label: '' };
+let setup = { level: 'pro', sections: ALL_KEYS.slice(), timer: 'actual' };
+let toastTimer = null;
+
+function currentTheme() { return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
+function applyThemeBtn() {
+  const b = document.getElementById('themeBtn');
+  if (b) b.textContent = currentTheme() === 'dark' ? 'Light' : 'Dark';
+}
+function toggleTheme() {
+  const next = currentTheme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('csc2026_theme', next); } catch (e) {}
+  applyThemeBtn();
+}
+applyThemeBtn();
+
+function secStat(key) {
+  const p = progress[key] || {};
+  const total = DATA[key].length;
+  const answered = Object.keys(p).length;
+  const correct = Object.values(p).filter(v => v === 1).length;
+  return { total, answered, correct };
+}
+function saveProgress() { localStorage.setItem(LS_KEY, JSON.stringify(progress)); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s == null ? '' : String(s);
+  return d.innerHTML;
+}
+function fmt(sec) {
+  const s = Math.max(0, Math.round(sec));
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+  const mm = String(m).padStart(2, '0'), ss = String(x).padStart(2, '0');
+  return h ? h + ':' + mm + ':' + ss : mm + ':' + ss;
+}
+function fmtH(min) {
+  if (min < 60) return min + 'm';
+  const h = Math.floor(min / 60), m = min % 60;
+  return m ? h + 'h ' + m + 'm' : h + 'h';
+}
+
+function render() {
+  const app = document.getElementById('app');
+  if (quiz.mode === 'home') app.innerHTML = homeHTML();
+  else if (quiz.mode === 'mock-setup') app.innerHTML = mockSetupHTML();
+  else if (quiz.mode === 'summary' || quiz.done) app.innerHTML = summaryHTML();
+  else app.innerHTML = quizHTML();
+  renderTimerBadge();
+}
+
+/* ---------- HOME ---------- */
+function homeHTML() {
+  let totalQ = 0, answeredQ = 0;
+  for (const k in DATA) { const st = secStat(k); totalQ += st.total; answeredQ += st.answered; }
+  let h = '<header><div><h1>CSC Civil Service Exam Reviewer 2026 - 2018 Exam</h1>' +
+          '<div class="sub">Offline interactive quiz &middot; ' + totalQ + ' questions &middot; passing rating 80%</div></div></header>';
+  h += '<div class="mockcard" onclick="startMock()">' +
+       '<div><div class="name">Mock Exam</div>' +
+       '<div class="cnt">Timed practice at the real CSE pace (170 items / 3h10m) or with extra time</div></div>' +
+       '<div class="play">&#9654;</div></div>';
+  let inner = '';
+  for (const [gname, items] of GROUPS) {
+    inner += '<div class="group">' + esc(gname) + '</div>';
+    for (const [key, label] of items) {
+      const st = secStat(key);
+      const pct = st.total ? Math.round(st.answered / st.total * 100) : 0;
+      const done = st.answered === st.total;
+      inner += '<div class="card" onclick="startSection(' + JSON.stringify(key) + ')">' +
+        '<div style="flex:1"><div class="name">' + esc(label) + '</div>' +
+        '<div class="cnt">' + st.answered + '/' + st.total + ' answered &middot; ' + st.correct + ' correct</div>' +
+        '<div class="bar"><div style="width:' + pct + '%"></div></div></div>' +
+        '<div class="pct' + (done ? ' done' : '') + '">' + pct + '%</div></div>';
+    }
+  }
+  h += inner;
+  h += '<div class="foot">' + answeredQ + '/' + totalQ + ' questions attempted across all sections &middot; ' +
+       '<a href="javascript:void(0)" onclick="resetAll(event)" style="color:var(--bad)">Reset all progress</a></div>';
+  return h;
+}
+function resetAll(ev) {
+  if (ev) ev.stopPropagation();
+  if (!confirm('Reset all progress?')) return;
+  progress = {}; saveProgress(); render();
+}
+function startSection(key) {
+  stopTimer();
+  const flat = DATA[key].map((_, i) => ({ sec: key, idx: i }));
+  quiz = { mode: 'quiz', flat: flat, idx: 0, done: false, ans: null,
+           timerOn: false, timeLeft: 0, timeTotal: 0, timeUsed: 0, timedOut: false,
+           timerId: null, runAnswered: {}, label: SECNAMES[key] };
+  render();
+}
+
+/* ---------- MOCK SETUP ---------- */
+function startMock() {
+  stopTimer();
+  quiz = { mode: 'mock-setup', flat: [], idx: 0, done: false, ans: null,
+           timerOn: false, timeLeft: 0, timeTotal: 0, timeUsed: 0, timedOut: false,
+           timerId: null, runAnswered: {}, label: 'Mock Exam' };
+  render();
+}
+function selectedCount() { return setup.sections.reduce((s, k) => s + DATA[k].length, 0); }
+function mockSize() { return Math.min(LEVELS[setup.level].items, selectedCount()); }
+function examMinutes(orderLen) { return Math.round(LEVELS[setup.level].minutes * orderLen / LEVELS[setup.level].items); }
+function mockSetupHTML() {
+  const n = mockSize();
+  const actual = examMinutes(n);
+  const beginner = Math.round(actual * 1.5);
+  const estLine = setup.timer === 'none' ? 'no timer (untimed practice)'
+    : setup.timer === 'actual'
+      ? 'time &asymp; <b>' + fmtH(actual) + '</b> &mdash; the real ' + LEVELS[setup.level].name + ' exam length'
+      : 'time &asymp; <b>' + fmtH(beginner) + '</b> (actual ' + fmtH(actual) + ' + 50%)';
+  let secs = '';
+  for (const [gname, items] of GROUPS) {
+    secs += '<div class="group">' + esc(gname) + '</div>';
+    for (const [key, label] of items) {
+      const st = secStat(key);
+      secs += '<label class="setrow"><input type="checkbox" onchange="toggleSec(' + JSON.stringify(key) + ', this.checked)" ' +
+              (setup.sections.includes(key) ? 'checked' : '') + '>' +
+              '<span class="name">' + esc(label) + '</span><span class="cnt">' + st.total + ' q</span></label>';
+    }
+  }
+  return '<div class="topline"><button class="btn ghost2" onclick="backHome()">&#9776; Home</button>' +
+         '<span class="spacer"></span><span class="badge">Mock Exam Setup</span></div>' +
+         '<div class="group">Level &middot; sets the real exam length and time</div>' +
+         '<label class="setrow"><input type="radio" name="lvl" value="pro" onchange="setLevel(this.value)" ' + (setup.level === 'pro' ? 'checked' : '') + '>' +
+         '<span class="name">Professional</span><span class="cnt">170 items &middot; 3h 10m</span></label>' +
+         '<label class="setrow"><input type="radio" name="lvl" value="sub" onchange="setLevel(this.value)" ' + (setup.level === 'sub' ? 'checked' : '') + '>' +
+         '<span class="name">Subprofessional</span><span class="cnt">165 items &middot; 2h 40m</span></label>' +
+         '<div class="group">Timer</div>' +
+         '<label class="setrow"><input type="radio" name="tmr" value="actual" onchange="setTimer(this.value)" ' + (setup.timer === 'actual' ? 'checked' : '') + '>' +
+         '<span class="name">Actual CSE timing</span><span class="cnt">real exam time &middot; 170 items in 3h 10m</span></label>' +
+         '<label class="setrow"><input type="radio" name="tmr" value="beginner" onchange="setTimer(this.value)" ' + (setup.timer === 'beginner' ? 'checked' : '') + '>' +
+         '<span class="name">Beginner &middot; more time</span><span class="cnt">50% extra time than the actual exam</span></label>' +
+         '<label class="setrow"><input type="radio" name="tmr" value="none" onchange="setTimer(this.value)" ' + (setup.timer === 'none' ? 'checked' : '') + '>' +
+         '<span class="name">No timer</span><span class="cnt">untimed practice</span></label>' +
+         '<div class="group">Include sections</div>' + secs +
+         '<div class="est">' + n + ' questions &middot; ' + estLine + '</div>' +
+         '<div class="nav"><button class="btn" ' + (n === 0 ? 'disabled' : 'onclick="beginMock()"') + '>Start Mock Exam &rarr;</button></div>';
+}
+function toggleSec(k, on) {
+  if (on) { if (!setup.sections.includes(k)) setup.sections.push(k); }
+  else { setup.sections = setup.sections.filter(x => x !== k); }
+  render();
+}
+function setLevel(l) { setup.level = l; render(); }
+function setTimer(t) { setup.timer = t; render(); }
+function backHome() { stopTimer(); quiz.mode = 'home'; render(); }
+function buildMockOrder() {
+  const target = LEVELS[setup.level].items;
+  const avail = {}, order = [];
+  let total = 0;
+  for (const k of setup.sections) { avail[k] = DATA[k].length; total += avail[k]; }
+  const take = Math.min(target, total);
+  if (!take) return order;
+  const alloc = {};
+  let sum = 0;
+  const fracs = [];
+  for (const k of setup.sections) {
+    const f = take * avail[k] / total;
+    alloc[k] = Math.min(Math.floor(f), avail[k]);
+    sum += alloc[k];
+    fracs.push([k, f - alloc[k]]);
+  }
+  fracs.sort((a, b) => b[1] - a[1]);
+  let i = 0;
+  while (sum < take) {
+    const k = fracs[i % fracs.length][0];
+    if (alloc[k] < avail[k]) { alloc[k]++; sum++; }
+    i++;
+  }
+  for (const g of GROUPS) for (const it of g[1]) {
+    const k = it[0];
+    if (!setup.sections.includes(k)) continue;
+    const pool = DATA[k].map((_, p) => p);
+    for (let c = 0; c < alloc[k]; c++) {
+      const p = Math.floor(Math.random() * pool.length);
+      order.push({ sec: k, idx: pool[p] });
+      pool.splice(p, 1);
+    }
+  }
+  return order;
+}
+function beginMock() {
+  const order = buildMockOrder();
+  if (!order.length) return;
+  quiz = { mode: 'quiz', flat: order, idx: 0, done: false, ans: null,
+           timerOn: false, timeLeft: 0, timeTotal: 0, timeUsed: 0, timedOut: false,
+           timerId: null, runAnswered: {}, label: 'Mock Exam' };
+  if (setup.timer !== 'none') {
+    let mins = examMinutes(order.length);
+    if (setup.timer === 'beginner') mins = Math.round(mins * 1.5);
+    const secs = mins * 60;
+    quiz.timerOn = true; quiz.timeLeft = secs; quiz.timeTotal = secs;
+  }
+  render();
+  if (quiz.timerOn) quiz.timerId = setInterval(tick, 1000);
+}
+
+/* ---------- QUIZ ---------- */
+function currentQ() { const e = quiz.flat[quiz.idx]; return DATA[e.sec][e.idx]; }
+function flatStat() {
+  let answered = 0, correct = 0;
+  for (const e of quiz.flat) {
+    const p = (progress[e.sec] || {})[DATA[e.sec][e.idx].n];
+    if (p !== undefined) { answered++; if (p === 1) correct++; }
+  }
+  return { total: quiz.flat.length, answered: answered, correct: correct };
+}
+function quizHTML() {
+  const q = currentQ();
+  const st = flatStat();
+  const total = st.total;
+  const pos = quiz.idx + 1;
+  const isMock = quiz.label === 'Mock Exam';
+  const e = quiz.flat[quiz.idx];
+  const curSec = isMock ? 'Mock Exam &middot; ' + SECNAMES[e.sec] : quiz.label;
+  const opts = q.o.map((o, i) => {
+    const letter = String.fromCharCode(65 + i);
+    let cls = 'opt', disp = esc(o), mark = '';
+    if (quiz.ans !== null) {
+      if (i === q.a) { cls += ' reveal'; mark = ' &#10003;'; }
+      else if (i === quiz.ans) { cls += ' wrong'; mark = ' &#10007;'; }
+    }
+    return '<button class="' + cls + '" ' + (quiz.ans !== null ? 'disabled' : 'onclick="answer(' + i + ')")') + '>' +
+           '<span class="letter">' + letter + '.</span>' + disp + mark + '</button>';
+  }).join('');
+  const passage = q.p ? '<div class="passage">' + esc(q.p) + '</div>' : '';
+  const fb = quiz.ans !== null
+    ? (quiz.ans === q.a
+        ? '<div class="fb good">&#10003; Correct!</div>'
+        : '<div class="fb bad">&#10007; Incorrect &mdash; correct answer: ' + String.fromCharCode(65 + q.a) + '.</div>')
+    : '';
+  const timer = quiz.timerOn
+    ? '<span class="timer" id="timer">' + fmt(quiz.timeLeft) + '</span>'
+    : '';
+  const nav = '<div class="nav">' +
+    '<button class="btn ghost2" ' + (pos <= 1 ? 'disabled' : 'onclick="go(-1)"') + '>&#8592; Prev</button>' +
+    '<button class="btn ghost2" onclick="shuffle()">Shuffle</button>' +
+    '<span class="spacer"></span>' +
+    (pos >= total
+      ? '<button class="btn" onclick="finish()">Finish &rarr;</button>'
+      : '<button class="btn" onclick="go(1)">Next &rarr;</button>') +
+    '</div>';
+  return '<div class="topline"><button class="btn ghost2" onclick="quit()">&#9776; Home</button>' +
+         '<span class="spacer"></span>' + timer + '</div>' +
+         '<div class="card" style="cursor:default"><div class="qmeta">' +
+         '<span class="badge gray">' + esc(curSec) + '</span>' +
+         '<span class="badge">Q' + esc(q.n) + '</span>' +
+         '<span class="scoreline">' + pos + ' of ' + total + ' &middot; ' + st.correct + '/' + st.answered + ' correct</span></div></div>' +
+         passage +
+         '<div class="qtext">' + esc(q.q) + '</div>' + opts + fb + nav;
+}
+function answer(i) {
+  const q = currentQ();
+  if (quiz.ans !== null) return;
+  quiz.ans = i;
+  quiz.runAnswered[quiz.idx] = true;
+  const e = quiz.flat[quiz.idx];
+  const key = e.sec;
+  const cur = progress[key] || {};
+  cur[q.n] = (i === q.a) ? 1 : 0;
+  progress[key] = cur;
+  saveProgress();
+  render();
+}
+function go(d) { quiz.ans = null; quiz.idx += d; render(); }
+function shuffle() {
+  quiz.ans = null;
+  for (let i = quiz.flat.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = quiz.flat[i]; quiz.flat[i] = quiz.flat[j]; quiz.flat[j] = tmp;
+  }
+  quiz.idx = 0;
+  render();
+  showToast('Order shuffled');
+}
+function quit() { stopTimer(); quiz.mode = 'home'; render(); }
+function finish() { stopTimer(); quiz.timeUsed = quiz.timeTotal - quiz.timeLeft; quiz.done = true; render(); }
+function retry() {
+  stopTimer();
+  quiz.done = false; quiz.ans = null; quiz.idx = 0; quiz.runAnswered = {};
+  if (quiz.timeTotal > 0) { quiz.timerOn = true; quiz.timeLeft = quiz.timeTotal; quiz.timeUsed = 0; }
+  render();
+  if (quiz.timerOn && !quiz.timerId) quiz.timerId = setInterval(tick, 1000);
+}
+function tick() {
+  if (!quiz.timerOn) return;
+  quiz.timeLeft -= 1;
+  if (quiz.timeLeft <= 0) { quiz.timeLeft = 0; finish(); return; }
+  renderTimerBadge();
+}
+function renderTimerBadge() {
+  const el = document.getElementById('timer');
+  if (!el) return;
+  el.textContent = fmt(quiz.timeLeft);
+  el.classList.toggle('urgent', quiz.timeLeft <= 300);
+}
+function stopTimer() {
+  if (quiz.timerId) { clearInterval(quiz.timerId); quiz.timerId = null; }
+}
+
+/* ---------- SUMMARY ---------- */
+function summaryHTML() {
+  const total = quiz.flat.length;
+  let answered = 0, correct = 0, unanswered = 0;
+  const wrong = [];
+  const isMock = quiz.label === 'Mock Exam';
+  for (let i = 0; i < total; i++) {
+    if (!quiz.runAnswered[i]) { unanswered++; continue; }
+    const e = quiz.flat[i];
+    const q = DATA[e.sec][e.idx];
+    const p = (progress[e.sec] || {})[q.n];
+    answered++;
+    if (p === 1) correct++;
+    else wrong.push({ sec: e.sec, q: q });
+  }
+  const denom = isMock ? total : Math.max(1, answered);
+  const pct = Math.round(correct / denom * 100);
+  const cls = pct >= 80 ? 'good' : pct >= 50 ? 'mid' : 'bad';
+  const pass = pct >= 80;
+  let passbar = '';
+  if (answered > 0 || isMock) {
+    passbar = '<div class="passbar ' + (pass ? 'pass' : 'fail') + '">' +
+      (pass ? '&#127942; Passed &mdash; rating ' + pct + '% (need 80%)' : 'Below the passing rating (80%). Keep reviewing!') + '</div>';
+  }
+  let timeLine = '';
+  if (quiz.timeTotal > 0) {
+    const used = Math.min(quiz.timeUsed, quiz.timeTotal);
+    timeLine = '<div class="scoreline">Time used: ' + fmt(used) + ' / ' + fmt(quiz.timeTotal) + (quiz.timeUsed < quiz.timeTotal ? '' : ' &middot; time up') + '</div>';
+  }
+  let review = '';
+  if (wrong.length) {
+    review = '<div class="group">Review incorrect answers</div>';
+    for (const w of wrong.slice(0, 50)) {
+      const q = w.q;
+      const letters = q.o.map((_, i) => String.fromCharCode(65 + i));
+      review += '<div class="review"><div class="rq">' + esc(SECNAMES[w.sec]) + ' &middot; Q' + q.n + '. ' + esc(q.q) + '</div>' +
+        '<div class="ra">&#10003; ' + letters[q.a] + '. ' + esc(q.o[q.a]) + '</div></div>';
+    }
+    if (wrong.length > 50) review += '<div class="small">...and ' + (wrong.length - 50) + ' more.</div>';
+  } else if (answered > 0) {
+    review = '<div class="fb good" style="margin-top:14px">&#127942; Perfect score! Great job.</div>';
+  }
+  const notes = unanswered ? '<div class="small" style="margin-top:8px">' + unanswered + ' unanswered' + (isMock ? ' (counted as wrong, like the real exam)' : '') + '</div>' : '';
+  return '<div class="topline"><button class="btn ghost2" onclick="quit()">&#9776; Home</button>' +
+         '<span class="spacer"></span>' +
+         '<button class="btn ghost2" onclick="retry()">Retry</button></div>' +
+         '<div class="summary-box"><div class="big ' + cls + '">' + pct + '%</div>' +
+         '<div class="scoreline">' + correct + ' correct out of ' + denom + (isMock ? ' items' : ' answered') + '</div>' +
+         timeLine + passbar + notes + '</div>' +
+         review;
+}
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSC Civil Service Exam Reviewer 2026 - 2019 Quiz</title>
+<script>
+  (function () {
+    try { if (localStorage.getItem('csc2026_theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}
+  })();
+</script>
+<style>
+  :root {
+    --bg: #f1f5f9; --card: #ffffff; --ink: #1e293b; --muted: #64748b;
+    --line: #e2e8f0; --accent: #2563eb; --accent2: #1d4ed8;
+    --good: #16a34a; --bad: #dc2626; --warn: #d97706;
+  }
+  [data-theme="dark"] {
+    --bg: #0b1120; --card: #172033; --ink: #e2e8f0; --muted: #94a3b8;
+    --line: #26334a; --accent: #60a5fa; --accent2: #3b82f6;
+    --good: #4ade80; --bad: #f87171; --warn: #fbbf24;
+  }
+  [data-theme="dark"] .bar { background: #26334a; }
+  [data-theme="dark"] .passage { background: #101a2c; color: #cbd5e1; }
+  [data-theme="dark"] .opt.correct, [data-theme="dark"] .opt.reveal { background: #12291d; }
+  [data-theme="dark"] .opt.wrong { background: #2c1518; }
+  [data-theme="dark"] .fb.good { background: #12291d; color: var(--good); border-color: #14532d; }
+  [data-theme="dark"] .fb.bad { background: #2c1518; color: var(--bad); border-color: #7f1d1d; }
+  [data-theme="dark"] .est { background: #16233f; border-color: #2c3e6b; color: #bfdbfe; }
+  [data-theme="dark"] .passbar.pass { background: #12291d; color: var(--good); border-color: #14532d; }
+  [data-theme="dark"] .passbar.fail { background: #2c1518; color: var(--bad); border-color: #7f1d1d; }
+  [data-theme="dark"] .badge.gray { background: #475569; }
+  [data-theme="dark"] .card:hover { box-shadow: 0 3px 10px rgba(0,0,0,.4); }
+  .theme {
+    position: fixed; right: 16px; bottom: 16px; z-index: 20;
+    background: var(--card); color: var(--ink); border: 1.5px solid var(--line);
+    border-radius: 999px; padding: 8px 14px; font-size: .78rem; font-weight: 700;
+    cursor: pointer; box-shadow: 0 2px 10px rgba(2,6,23,.15);
+  }
+  .theme:hover { border-color: var(--accent); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 16px; }
+  header {
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: #fff; padding: 18px 20px; border-radius: 14px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  header h1 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+  header .sub { font-size: .8rem; opacity: .85; }
+  .btn {
+    border: 0; border-radius: 10px; cursor: pointer; font-size: .9rem;
+    font-weight: 600; padding: 9px 14px; background: var(--accent); color: #fff;
+    transition: filter .12s;
+  }
+  .btn:hover { filter: brightness(1.08); }
+  .btn.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn.ghost2 { background: var(--card); color: var(--ink); border: 1.5px solid var(--line); }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .group { margin: 22px 0 6px; font-size: .78rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin: 8px 0; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    transition: box-shadow .12s, transform .12s;
+  }
+  .card:hover { box-shadow: 0 3px 10px rgba(2,6,23,.08); transform: translateY(-1px); }
+  .card .name { font-weight: 600; font-size: .98rem; }
+  .card .cnt { color: var(--muted); font-size: .82rem; }
+  .bar { height: 6px; border-radius: 4px; background: #e7ecf3; margin-top: 8px; overflow: hidden; }
+  .bar > div { height: 100%; background: var(--accent); border-radius: 4px; }
+  .pct { font-size: .78rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .pct.done { color: var(--good); }
+  .mockcard {
+    background: linear-gradient(135deg, #0f172a, #334155);
+    color: #fff; border-radius: 12px; padding: 16px 18px; margin: 14px 0;
+    cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    border: 1px solid #1e293b; transition: box-shadow .12s, transform .12s;
+  }
+  .mockcard:hover { box-shadow: 0 5px 16px rgba(2,6,23,.25); transform: translateY(-1px); }
+  .mockcard .name { font-weight: 800; font-size: 1.05rem; }
+  .mockcard .cnt { font-size: .8rem; opacity: .8; margin-top: 2px; }
+  .mockcard .play { background: var(--accent); border-radius: 999px; width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex: 0 0 auto; }
+  .topline { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .topline .title { font-weight: 700; font-size: 1.02rem; flex: 1; }
+  .timer {
+    background: #0f172a; color: #4ade80; font-family: ui-monospace, Consolas, monospace;
+    font-weight: 700; font-size: 1.05rem; padding: 6px 14px; border-radius: 999px;
+    white-space: nowrap; letter-spacing: .02em;
+  }
+  .timer.urgent { background: var(--bad); color: #fff; animation: pulse 1s infinite; }
+  @keyframes pulse { 50% { opacity: .75; } }
+  .qmeta { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .badge { background: var(--accent); color: #fff; border-radius: 999px;
+    font-size: .74rem; font-weight: 700; padding: 3px 10px; }
+  .badge.warn { background: var(--warn); }
+  .badge.gray { background: #94a3b8; }
+  .scoreline { font-size: .85rem; color: var(--muted); }
+  .qtext { font-size: 1.06rem; font-weight: 600; margin: 6px 0 14px; }
+  .passage {
+    background: #f8fafc; border: 1px solid var(--line); border-left: 4px solid var(--accent);
+    border-radius: 10px; padding: 12px 14px; margin: 10px 0; font-size: .92rem;
+    white-space: pre-wrap; color: #334155; max-height: 220px; overflow: auto;
+  }
+  .opt {
+    display: block; width: 100%; text-align: left; margin: 8px 0;
+    background: var(--card); border: 1.5px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; font-size: .96rem; cursor: pointer; color: var(--ink);
+    transition: border-color .12s, background .12s;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--accent); }
+  .opt:disabled { cursor: default; }
+  .opt .letter { font-weight: 700; margin-right: 8px; color: var(--muted); }
+  .opt.correct { border-color: var(--good); background: #f0fdf4; }
+  .opt.correct .letter { color: var(--good); }
+  .opt.wrong { border-color: var(--bad); background: #fef2f2; }
+  .opt.wrong .letter { color: var(--bad); }
+  .opt.reveal { border-color: var(--good); background: #f0fdf4; }
+  .fb { margin: 12px 0; padding: 12px 14px; border-radius: 10px; font-weight: 600; font-size: .95rem; }
+  .fb.good { background: #f0fdf4; color: var(--good); border: 1px solid #bbf7d0; }
+  .fb.bad { background: #fef2f2; color: var(--bad); border: 1px solid #fecaca; }
+  .nav { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .nav .spacer { flex: 1; }
+  .setrow {
+    display: flex; align-items: center; gap: 10px; background: var(--card);
+    border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; margin: 6px 0;
+    cursor: pointer; font-size: .95rem;
+  }
+  .setrow input { accent-color: var(--accent); width: 17px; height: 17px; }
+  .setrow .name { font-weight: 600; flex: 1; }
+  .setrow .cnt { color: var(--muted); font-size: .8rem; white-space: nowrap; }
+  .est {
+    background: #eef2ff; border: 1px solid #c7d2fe; color: #3730a3; border-radius: 10px;
+    padding: 10px 14px; margin: 12px 0; font-size: .88rem; font-weight: 600;
+  }
+  .summary-box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; text-align: center; margin: 10px 0; }
+  .summary-box .big { font-size: 2.4rem; font-weight: 800; }
+  .summary-box .big.good { color: var(--good); } .summary-box .big.mid { color: var(--warn); } .summary-box .big.bad { color: var(--bad); }
+  .passbar { margin-top: 10px; font-weight: 700; font-size: .9rem; padding: 8px; border-radius: 8px; }
+  .passbar.pass { background: #f0fdf4; color: var(--good); border: 1px solid #bbf7d0; }
+  .passbar.fail { background: #fef2f2; color: var(--bad); border: 1px solid #fecaca; }
+  .review { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 10px 0; }
+  .review .rq { font-weight: 600; margin-bottom: 6px; }
+  .review .ra { font-size: .9rem; color: var(--good); }
+  .small { font-size: .8rem; color: var(--muted); }
+  .foot { text-align: center; color: var(--muted); font-size: .78rem; margin: 24px 0 10px; }
+  .toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+    background: #0f172a; color: #fff; padding: 10px 16px; border-radius: 10px;
+    font-size: .85rem; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 10; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="toast" id="toast"></div>
+<button class="theme" id="themeBtn" onclick="toggleTheme()" title="Toggle dark mode"></button>
+<script>
+const DATA = {"vocabulary": [{"n": 11, "q": "Sila ay nagdadamayan sa hirap at ginhawa. Sila ay totoong \"naghihiramang suklay\"", "o": ["mag asawa", "magkapatid", "magkaibigan", "magka anak"], "a": 2}, {"n": 12, "q": "There is no PANACEA that will solve our financial difficulty.", "o": ["cure-all", "answer", "paradox", "criteria"], "a": 0}, {"n": 13, "q": "DEBACLE", "o": ["introduction", "conflict", "disaster", "assault"], "a": 2}, {"n": 14, "q": "LAGASAW", "o": ["tunog ng pag-yak", "tunog ng hangin", "tunog ng alon", "tunog ng busina"], "a": 2}, {"n": 15, "q": "KABAL", "o": ["sepal", "kaban", "unawa", "agimat"], "a": 3}, {"n": 16, "q": "HAGINIT", "o": ["hagikhik", "hambalang", "handusay", "harurot"], "a": 3}, {"n": 17, "q": "DALAHIKAN", "o": ["daungan", "istambayan", "palaruan", "dagat"], "a": 0}, {"n": 18, "q": "FORBEARANCE", "o": ["attitude", "stubbornness", "generosity", "patience"], "a": 3}, {"n": 19, "q": "ALLEGIANCE", "o": ["loyalty", "solemnity", "intelligence", "sincerity"], "a": 0}, {"n": 20, "q": "GRUNGY", "o": ["fashionable", "brittle", "dirty", "warm"], "a": 2}, {"n": 21, "q": "PROSCRIBE", "o": ["record", "promote", "forbid", "interpret"], "a": 2}, {"n": 22, "q": "HULAS", "o": ["litaw", "lusaw", "hilaw", "durog"], "a": 1}, {"n": 23, "q": "DALAHIRA", "o": ["matulungin", "tsismosa", "pustura", "madalasin"], "a": 1}, {"n": 24, "q": "BARAL", "o": ["metal", "trangka", "santo", "sulat"], "a": 1}, {"n": 25, "q": "DULANG", "o": ["mahabang hapag", "uri ng isda", "malungkot na drama", "makasaysayang tula"], "a": 0}, {"n": 26, "q": "GULA-GULANIT", "o": ["lukot-lukot", "punit-punit", "iba-ibang kulay", "buhol-buhol"], "a": 1}, {"n": 27, "q": "LAGAK", "o": ["tuyot", "tungga", "pigtal", "deposito"], "a": 3}, {"n": 28, "q": "DALAHIKAN", "o": ["daungan", "istambayan", "palaruan", "dagat"], "a": 0}, {"n": 29, "q": "CANTANKEROUS", "o": ["ill-advised", "offensive", "greasy", "quarrelsome"], "a": 3}, {"n": 30, "q": "PERAMBULATE", "o": ["move back and forth", "walk", "disbelieve", "investigate Idiomatic Expression & Correct Grammar/Spelling:"], "a": 1}], "idiomatic": [{"n": 31, "q": "1. A pretty penny means _____________.", "o": ["If something costs a pretty penny, it is very expensive.", "If something costs a pretty penny, it is very inexpensive.", "If something costs a pretty penny, it is very precious.", "If something costs a pretty penny, it is very unimportant."], "a": 0}, {"n": 32, "q": ". Come out of your shell means _____________.", "o": ["If someone comes in of their shell, they never stop being shy and withdrawn and become more unfriendly and sociable.", "If someone comes out of their shell, they stop being shy and withdrawn and become more friendly and sociable.", "If someone comes out of their shell, they never stop being shy and withdrawn and become more friendly and sociable.", "If someone comes in of their shell, they stop being shy and withdrawn and become more un friendly and unsociable."], "a": 1}, {"n": 33, "q": ". Derring-do means _________.", "o": ["If a person shows derring-do, they show unwillingness.", "If a person shows derring-do, they show shyness.", "If a person shows derring-do, they show great courage.", "If a person shows derring-do, they show pettiness."], "a": 2}, {"n": 34, "q": "Hot water means ___________.", "o": ["If you get into hot water, you get into trouble.", "If you get into hot water, you get a lucky day.", "If you get into hot water, you get a bad day.", "If you get into hot water, you get a burn skin."], "a": 0}, {"n": 35, "q": "Keep abreast means __________.", "o": ["If you keep abreast of things, you stay uninformed about developments.", "If you keep abreast of things, you stay informed about developments.", "If you keep abreast of things, you stay informed about things.", "If you keep abreast of things, you stay informed about life"], "a": 1}, {"n": 36, "q": "There are times when you must decide and \"take the bull by the horns.\"", "o": ["make the right decision", "make a bold decision", "make the wrong decision", "make a final decision"], "a": 1}, {"n": 37, "q": "He \"leads a dog's life\" really because his freedom is always curtailed.", "o": ["never knows what to do", "never goes out", "sometimes does something wrong", "never does what he wants"], "a": 3}, {"n": 38, "q": "No-one ever mentions him because he's regarded as the \"black sheep of the family.\"", "o": ["the one with a sense of humour", "the one who is always late", "the one with a bad reputation", "the one who never washes"], "a": 2}, {"n": 39, "q": "I shouldn't go outside without a raincoat because \"it's raining cats and dogs.\"", "o": ["it's just started to rain", "it's raining very heavily", "it's going to rain", "it's raining a little"], "a": 1}, {"n": 40, "q": "You shouldn't sign there I think he's about \"to make a monkey out of you.\"", "o": ["to make a fool of you", "to make you feel stupid", "to make you lose money", "to make you lose interest For each of the following sentences, choose the correct spelling for the missing word."], "a": 0}, {"n": 41, "q": "She had to buy a ________ of shoes to match her dress.", "o": ["pair", "pear", "pare", "peer"], "a": 0}, {"n": 42, "q": "The ________ of the school asked all faculty members to attend a meeting.", "o": ["principal", "principle", "precept"], "a": 0}, {"n": 43, "q": "The ________ of the perfume was intoxicating.", "o": ["accent", "sent", "cent", "scent"], "a": 3}, {"n": 44, "q": "The room was completely ________ of furniture.", "o": ["beer", "bear", "bare"], "a": 2}, {"n": 45, "q": "________ only four o'clock in the afternoon.", "o": ["It's", "Its", "He's"], "a": 0}, {"n": 46, "q": "Creativity is ________ best asset.", "o": ["you're", "your"], "a": 1}, {"n": 47, "q": "The ________ in the mountains was peaceful and still.", "o": ["air", "heir", "ear", "ere"], "a": 0}, {"n": 48, "q": "Take the ________ to the second floor.", "o": ["steers", "stares", "stairs"], "a": 2}, {"n": 49, "q": "She boarded a ________ to San Francisco last night.", "o": ["plane", "plain"], "a": 0}, {"n": 50, "q": "He had a reputation for being very ___and self-centered.", "o": ["vain", "vane", "vein"], "a": 0}], "analogy": [{"n": 51, "q": "Genuine : Authentic : : Mirage : _____", "o": ["Illusion", "Image", "Hideout", "Reflection"], "a": 0}, {"n": 52, "q": "SECLUSION : HERMIT ::", "o": ["wealth: embezzler", "ambition : philanthropist", "domination : athlete", "turpitude : introvert", "injustice : lawyer"], "a": 0}, {"n": 53, "q": "philanthropist : munificence ::", "o": ["aristocrat : gratitude", "skeptic : disbelief", "symptom : treatment", "anomaly : plausibility", "cynic : melancholy"], "a": 1}, {"n": 54, "q": "Vague : Nebulous : :", "o": ["spectacular : legitimate", "mundane : commonplace", "magical : impressive", "steep : shallow"], "a": 1}, {"n": 55, "q": "Diaphanous : Opaque", "o": ["dishevelled : messy", "disconsolate : happy", "disrespectful : injurious", "disallow : reject", "distraught : calm"], "a": 4}, {"n": 56, "q": "FRAME : PICTURE", "o": ["display : museum", "shelf : refrigerator", "mechanic : electrician", "nail : hammer", "fence : backyard"], "a": 4}, {"n": 57, "q": "SEARCH : FIND", "o": ["sleep : wake", "explore : discover", "draw : paint", "think : relate", "walk : run"], "a": 1}, {"n": 58, "q": "PHARMACY : DRUGS", "o": ["mall : store", "doctor : medicine", "bakery : bread", "supermarket : discount store", "toys : games"], "a": 2}, {"n": 59, "q": "LAYER : TIER", "o": ["section : segment", "dais : speaker", "curtain : stage", "chapter : verse", "cotton : bale"], "a": 0}, {"n": 60, "q": "METROPOLITAN : URBAN", "o": ["bucolic : rural", "sleepy : nocturnal", "agricultural : cow", "autumn : harvest", "agrarian : generous"], "a": 0}, {"n": 61, "q": "TEACHER : SCHOOL", "o": ["actor : role", "mechanic : engine", "jockey : horse", "judge : courthouse", "author : book"], "a": 3}, {"n": 62, "q": "CAR : GASOLINE", "o": ["truck : trailer", "car : garage", "bicycle : feet", "boat : ocean", "deck : house"], "a": 2}, {"n": 63, "q": "RUN: JOG", "o": ["trot : race", "swim : dive", "dance : ballet", "juggle : bounce", "rain : drizzle"], "a": 4}, {"n": 64, "q": "RADIO : TELEVISION", "o": ["electricity : lightning", "up : down", "ear : eye", "nose : face", "old : new"], "a": 2}, {"n": 65, "q": "TAILOR : SUIT", "o": ["scheme : agent", "edit : manuscript", "revise : writer", "mention : opinion", "implode : building"], "a": 1}, {"n": 66, "q": "The history book has more pages from the poetry book, but fewer pages than the math book. The math book has more pages than the science book but fewer pages than the English book. The poetry book has the fewest pages. If the first two statements are true, the third is", "o": ["true", "false", "uncertain"], "a": 2}, {"n": 67, "q": "Subscribing to Cable T.V. is a luxury. All luxuries are needles expenditures. Having a cellular phone is not a luxury. Dining in a Five-Star hotel is a needless expenditure CONCLUSION:", "o": ["Having a cellular phone is not a needless expenditure", "Subscribing to Cable TV is a needless expenditure", "Subscribing to cable TV is not a needless expenditure", "Dining in a Five-Star hotel is not a luxury", "Dining in a Five-Star hotel is a luxury"], "a": 1}, {"n": 68, "q": "A factory worker has five children. No one else in the factory has five children.", "o": ["All workers in the factory have five children each.", "Everybody in the factory has children.", "Some of the factory workers have more than five children.", "Only one worker in the factory has exactly five children."], "a": 3}, {"n": 69, "q": "Television convinces viewers that the likelihood of their becoming the victim of a violent crime is extremely high; at the same time by its very nature, TV persuades viewers to passively accept whatever happens to them.", "o": ["TV viewing promotes criminal behaviour.", "TV viewers are most likely to be victimized than others.", "People should not watch TV.", "TV promotes a feeling of helpless vulnerability in viewers."], "a": 3}, {"n": 70, "q": "The government is soon going to introduce a bill which would permit the instituting of private universities under very strict directions.", "o": ["We have some private universities in our country even now.", "The demand for more universities is being stepped up.", "Such directions can also be issued without informing the Parliament.", "The government gives directions to establish anything in private sector.", "Unless and until the directions are given, the private universities can charge exorbitant fees."], "a": 1}], "reading": [{"n": 76, "q": "There are no effective boundaries when it comes to pollutants. Studies have shown that toxic insecticides that have been banned in many countries are riding the wind from countries where they remain legal. Compounds such as DDT and toxaphene have been found in remote places like the Yukon and other Arctic regions. This paragraph best supports the statement that", "o": ["toxic insecticides such as DDT have not been banned throughout the world.", "more pollutants find their way into polar climates than they do into warmer areas.", "studies have proven that many countries have ignored their own anti-pollution laws.", "DDT and toxaphene are the two most toxic insecticides in the world."], "a": 0}, {"n": 77, "q": "Most researchers in needy countries are based on the thinking and approach of the highly developed Western world, and seldom have they been directed toward meeting the countries; own development needs. The sentence best supports the statement that _________.", "o": ["highly developed countries offer the best guide for the development of needy countries", "most researchers done in needy countries are missing their objectives", "most researchers have universal application", "needy countries need researchers to help them reach the status of the western world", "needy countries spend so much time for conducting researchers"], "a": 3}, {"n": 78, "q": "Critical reading is a demanding process. To read critically, you must slow down your reading and, with pencil in hand, perform specific operations on the text. Mark up the text with your reactions, conclusions, and questions. When you read, become an active participant. This paragraph best supports the statement that", "o": ["critical reading is a slow, dull, but essential process.", "the best critical reading happens at critical times in a person's life.", "readers should get in the habit of questioning the truth of what they read.", "critical reading requires thoughtful and careful attention.", "critical reading should take place at the same time each day."], "a": 3}, {"n": 79, "q": "Two person look out through the same bars; one sees mud and the other, the stars. The sentence best supports the statement that __________.", "o": ["some people are more blind than others", "people see things differently depending on their own perspective", "people have varied ways of looking at different things", "people have different tastes and interests", "people tend to influence one another's views of things"], "a": 2}, {"n": 80, "q": "Nagawang mabago ng mga kasalukuyang awitin ang kamalayan ng Pilipino upang kantahin ang sarili niyang mga awit sa tanging wikang nakapagsasatinig sa kanyang kaluluwa. Isinasaad ng pangungusap na __________.", "o": ["madamdamin at makabuluhan ang mga awiting isinulat sa wikang Pilipino", "tagumpay ang mga awiting Pilipino na mabago ang kaugalian ng mga tao Pilipino", "madaling matutuhan ang mga awiting Pilipino dahil ang mga ito ay nasusulat sa katutubong wika", "natututuhan nang tangkilikin ng mga Pilipino ang kanilang mga sariling awitin", "nagkakaroon na ng kamalayan ang mga Pilipino tungkol sa lahat ng mga awitin ngayon"], "a": 3}, {"n": 81, "q": "Sixty years ago I know everything ; now I know nothing ; education is a progressive discovery of our own ignorance. The sentence best supports the statement that __________.", "o": ["the older we get, the more we forget what we have learned", "the older we get, the more knowledgeable we become", "the more we learn, the more we realize that there's more we need to know", "we learn more as we grow old", "ignorance is a lifelong experience"], "a": 0}, {"n": 82, "q": "In a modern economy, the results of long-range planning frequently depend upon the future value of money. The ability then to predict the value of money is a key to economic progress. The paragraph best supports the statement that _________.", "o": ["the value of money is unpredictable at times", "the unpredictability of money is an obstacle to a nation's prosperity", "economic progress is facilitated by properly controlling budgetary expenses", "long-range planning is unheard of in traditional economies", "financial planning is indispensable in modern economy"], "a": 1}, {"n": 83, "q": "Ang pagbaba ng halaga ng piso lumikha ng krisis sa maraming industriya ng bansa. Kasunod nito ang pagtitipid at problema sa kawalan ng mapasukang trabaho. Lumikha rin ito ng pagtataas ng presyo ng mga bilihin na labis nakaapekto sa kita ng mga manggagawa. Ayon sa talata __________.", "o": ["ang kasalukuyang krisis ay bunga ng mga mahal na bilihin at kawalan ng mapasukang trabaho.", "ang krisis ay nakaapekto sa hangarin ng maraming industriya na makapagbigay ng karagdagang sahod sa kanilang mga manggagawa", "dumarami ang mga walang hanapbuhay at tumataas ang halaga ng mga bilihin dahil sa krisis", "maraming industriya ang nalulugi dahil sa krisis kaya itinataas din nila ang presyo ng kanilang mga produkto", "dahil sa krisis, maraming industriya ang napilitang magsara"], "a": 2}, {"n": 84, "q": "Which title best summarizes the main idea of the passage?", "o": ["Wild Animals in Art", "Hidden Prehistoric Paintings", "Exploring Caves Respectfully", "Determining the Age of French Caves"], "a": 1}, {"n": 85, "q": "In 2nd sentence, the words pays heed to are closest in meaning to _______.", "o": ["discovers", "watches", "notices", "buys"], "a": 2}, {"n": 86, "q": "Based on the passage, what is probably true about the south of France?", "o": ["It is home to rare animals.", "It has a large number of caves.", "It is known for horse-racing events.", "It has attracted many famous artists."], "a": 1}, {"n": 87, "q": "According to the passage, which animals appear most often on the cave walls?", "o": ["Birds", "Bison", "Horses", "Wild cats"], "a": 2}, {"n": 88, "q": "the word depict is closest in meaning to _______.", "o": ["show", "hunt", "count", "draw"], "a": 0}, {"n": 89, "q": "Why was painting inside the Lascaux complex a difficult task?", "o": ["It was completely dark inside.", "The caves were full of wild animals.", "Painting materials were hard to find.", "Many painting spaces were difficult to reach."], "a": 3}, {"n": 90, "q": "In the 3rd paragraph, the word THEY refers to _______.", "o": ["walls", "artists", "animals", "materials"], "a": 1}, {"n": 91, "q": "According to the passage, all of the following have caused damage to the paintings EXCEPT _______.", "o": ["temperature changes", "air movement", "water", "light"], "a": 3}, {"n": 92, "q": "What does the passage say happened at the Lascaux caves in 1963?", "o": ["Visitors were prohibited from entering.", "A new lighting system was installed.", "Another part was discovered.", "A new entrance was created."], "a": 0}, {"n": 93, "q": "What can we infer from this passage?", "o": ["An electrical discharge in the clouds causes lightning.", "Lightning is not as hot as the temperature of the sun's surface.", "The sound that lightning makes occurs when electricity strikes an object.", "We hear lightning before we see it."], "a": 0}, {"n": 94, "q": "Being struck by lightning means:", "o": ["Instant death.", "Less than a fifty percent chance of survival.", "A ninety percent chance of surviving the strike.", "An eighty percent chance of survival."], "a": 2}, {"n": 95, "q": "Lightning is caused by the following:", "o": ["Water droplets colliding with ice crystals creating static electricity.", "Friction from the clouds rubbing together.", "Water droplets colliding.", "Warm and cold air mixing together."], "a": 0}], "paragraph_org": [{"n": 96, "q": "A. One effective way is to diversify his funds to different investments like real estate, stocks and money instruments like bonds and trust funds. B. It is always best to expand money to different investment wheels. C. A wise investor must not put all his eggs in one basket. D. He should always consider the risks involved in investing his money.", "o": ["CBAD", "CBDA", "CDAB", "CDBA"], "a": 2}, {"n": 97, "q": "A. It is very vital to have social media presence however personal blogs serve as web domains. B. Most people including celebrities and businessmen have blogs nowadays. C. Therefore, building them will help anyone in promoting himself or his business. D. Apparently blogs are like our offices only they are in the internet.", "o": ["BDAC", "BADC", "BACD", "BDCA Free reviewer for all… arranged by Leonalyn Mutia-Tayone"], "a": 1}, {"n": 98, "q": "A. The basic steps in building a website are easy to remember and registering a domain name is the usual priority. B. Designing a layout will come after that. C. Finally, adding more content and social media presence are required to keep your site active. D. Then you need a hosting provider to host your site's content in the World Wide Web.", "o": ["ABCD", "ADBC", "ACBD", "ADCB"], "a": 1}, {"n": 99, "q": "A. Speaking in English every day is also proven effective. B. Another way is watching English movies and TV shows particularly with English subtitles. C. Reading articles in books, newspapers, and magazines is just among the helpful ways. D. There are many ways to improve and develop English proficiency.", "o": ["DCBA", "DACB", "DABC", "DCAB"], "a": 0}, {"n": 100, "q": "A. Others don't realize yet what to pursue because they have many dreams. B. Finding the right course in college is one of the most challenging decisions anyone can make. C. Some people want to pursue their dreams ever since they were just little. D. Indeed destiny is a matter of choice.", "o": ["BDAC", "BCDA", "BADC", "BCAD"], "a": 3}, {"n": 101, "q": "A. Many innovations without proven results and follow up evaluation are educational wastages B. One wonders in the final analysis if these changes have been deeply rooted on basic problems of the people they serve. C. Some curriculum changes were mere fads without foreseeable achievements. D. What we need are innovations that overcome the mis-education of the young. Choices:", "o": ["BACD", "ACDB", "ABCD", "CBAD"], "a": 1}, {"n": 102, "q": "A. By trying, man learns to solve his problems through satisfying acts and eliminate actions which are annoying. B. He used a hungry cat in a puzzled box where it tried ways to get out in order to get to the food. C. Edward C. Thorndike's connectionism theory of learning establishes the trial and error way to learn. D. He established the fact that like the cat, man too, learns by trial and error. Choices:", "o": ["ACBD", "BACD", "ACDB", "ABCD"], "a": 0}, {"n": 103, "q": "A. A responsive educational system should be directed towards regional cooperation. B. Commonality of educational objectives should be replaced by better ways of achieving goals that fit the regional needs. C. It is necessary to revolutionize the contemporary methodologies in the teaching-learning processes. D. The educational goals should seek for a better way of experimentation in the teaching strategies and technologies. Choices:", "o": ["ABCD", "ABDC", "BCAD", "DABC Free reviewer for all… arranged by Leonalyn Mutia-Tayone"], "a": 0}, {"n": 104, "q": "A. Before, his religion was basically involved with rituals and ceremonies. B. The religion of the teacher helps him in reducing his fears and uncertainties. C. His religion responds to his needs for a means to allay fears about the uncertainty of events contrary to natural laws. D. Religion is important because it provides spiritual nourishment for his total being. Choices:", "o": ["ABCD", "BACD", "DBCA", "CBAD"], "a": 1}, {"n": 105, "q": "A. While passport, airline tickets and valid IDs are required, proof of financial capacity may be required for visa application. B. Many Filipinos rejoiced hearing that good news. C. The Bureau of Immigration announced recently that proof of financial capacity is not a primary requirement at the airport. D. Positive points go to the bureau for this.", "o": ["CBAD", "CADB", "CABD", "CBDA"], "a": 3}, {"n": 106, "q": "A. This will be one of your tickets to land a job in the government. B. That is why many people apply to take the Career Service examination. C. If you passed the exam, you will get a certificate of eligibility. D. Career Service Eligibility is a major requirement to apply for a job position in the government.", "o": ["DCBA", "DBAC", "DBCA", "DCAB"], "a": 2}, {"n": 107, "q": "A. Your passport will arrive in 7 days if you choose the rush processing. B. Getting a passport is faster nowadays. C. Now, it only takes about 10 working days. D. Compared before, it would take about a month for the regular processing.", "o": ["BCAD", "BDCA", "BADC", "BACD"], "a": 1}, {"n": 108, "q": "A. Facebook has been the number one social network in the web and the world for quite long now. B. Mobile instant messaging apps are also dominating social presence in the internet. C. After many acquisitions, Facebook bought Instagram, one of the fastest growing photo sharing networks. D. Because of that, Facebook acquired WhatsApp, a leading instant chat platform like Kakaotalk.", "o": ["ACBD", "ABCD", "ADCB", "ADBC"], "a": 0}, {"n": 109, "q": "A. They will help you to purchase through zero-interest installment schemes. B. Thus, you must be wise and pay in full if you want to avoid never-ending debts. C. Credit cards are helpful if you know how and when to use them wisely. D. However, they will produce interests from interests if you didn't pay the whole amount at the due date.", "o": ["CDBA", "CABD", "CDAB", "CADB Free reviewer for all… arranged by Leonalyn Mutia-Tayone"], "a": 3}, {"n": 110, "q": "A. Although the government is willing to put resources to education ,alone, it cannot do the job. B. Education Act of 1980 provides an all encompassing activity with participation at all educational levels and sectors. C. The private schools have to be partners. D. The Act not only strengthens but equips the DepEd with its regulatory and developmental tasks as well", "o": ["BACD", "ABCD", "DBCA", "CADB"], "a": 0}], "numerical": [{"n": 136, "q": "(25)^0 - (-2)^4 + (-3^4) - (-8)^2 = ?", "o": ["2", "1", "+161", "+160", "-160"], "a": 4}, {"n": 137, "q": "-2^2 - (-9)^2 - (-3^2) + 15^0 = ?", "o": ["-75", "+75", "-85", "+85", "0"], "a": 0}, {"n": 138, "q": "20% of 30% of X is 225 what is the value of X", "o": ["13.5", "825", "375", "3750", "112.5"], "a": 3}, {"n": 139, "q": "If the perimeter of a square is doubled, what happens to the area? ______", "o": ["the area is twice its original.", "the area is 4 times its original.", "the area is 6 times its original.", "the area is 8 times its original."], "a": 1}, {"n": 140, "q": "A one forth percent of a number is 25. What is the number?", "o": ["100", "1,000", "10,000", "100,000"], "a": 2}, {"n": 141, "q": "√0.000225 = ____?", "o": ["15", "1.5", "0.15", "0.015", "0.0015"], "a": 3}, {"n": 142, "q": "√0.00000081 = ____?", "o": ["9", "0.9", "0.09", "0.009", "0.0009"], "a": 4}, {"n": 143, "q": "Which of the numbers below is 650 when rounded to the nearest ten and 600 when rounded to the nearest hundred?", "o": ["645.01", "645.00", "651.00", "688.00", "none of the above"], "a": 0}, {"n": 144, "q": "Round off to the nearest hundreds place: 9,750", "o": ["9,900", "9,700", "9,800", "9,760", "none of the above"], "a": 2}, {"n": 145, "q": "Round off to the nearest hundreds place: 9,650", "o": ["9,860", "9,700", "9,760", "9,600", "none of the above"], "a": 3}, {"n": 146, "q": "Number Series: 125%, 100%, 80%, 64%,____", "o": ["60%", "50%", "42%", "52.5%", "51.2%"], "a": 4}, {"n": 147, "q": "Number series: 2, 10, 60, 420, ____", "o": ["1680", "840", "3414", "3360", "4500"], "a": 3}, {"n": 148, "q": "The mean median and mode of 5 numbers are equal. The numbers are 7, 8, 10, 15. What is the 5th number?", "o": ["7", "5", "10", "15", "8"], "a": 2}, {"n": 149, "q": "The mean median and mode of 7 numbers are equal. The numbers are 24, 22, 18, 10, 38, 32. What is the 7th number?", "o": ["24", "22", "18", "10", "32"], "a": 0}, {"n": 150, "q": "Number Series: 1, 2, 2, 3, 4, 4, 8, 5, __", "o": ["6", "7", "16", "20", "none of the above"], "a": 2}, {"n": 151, "q": "Number Series: 15, 7.5, 7.5, 15, 60, ____", "o": ["480", "120", "240", "420", "none of the above"], "a": 0}, {"n": 152, "q": "Round-off 2,833,333 to the nearest hundred thousands", "o": ["2,833,300", "2,900,000", "2,833,000", "2,800,000", "none of the above"], "a": 3}, {"n": 153, "q": "The product of the ages of three sisters is 567. If the two sisters are twins and are 2 years older than their younger sister. What is the age of their younger sister?", "o": ["16", "10", "7", "8", "none of the above"], "a": 2}, {"n": 154, "q": "Number Series: [4÷4×2], [8÷4×2], [16÷4×2], ___", "o": ["2", "16", "32", "8", "none of the above"], "a": 1}, {"n": 155, "q": "A solution is made of water and pure milk. If 70% of the solution is water, how many milliliters of pure milk are in 1 liter of this solution?", "o": ["30", "70", "250", "300", "none of the above"], "a": 3}, {"n": 156, "q": "4010 x 0.0001 = ___", "o": ["0.00401", "0.0401", "0.401", "4.01", "40.1"], "a": 2}, {"n": 157, "q": "(−7)² + (−7²) =", "o": ["0", "+98", "−98", "2401", "None of the above"], "a": 0}, {"n": 158, "q": "When the first and the last digits of 2, 836 are interchanged, the new number is _____.", "o": ["3996 more than 2,836", "3996 less than 2, 836", "1404 more than 2, 836", "1404 less than 2, 836", "none of the above"], "a": 0}, {"n": 159, "q": "If twice the value of a certain number is increased by 8 the result is 40. What is the number?", "o": ["8", "16", "24", "32", "none of the above"], "a": 1}, {"n": 161, "q": "In a group of 120 persons, there are 32 more women than men. How many women are there in the group?", "o": ["44", "88", "76", "56", "none of the above"], "a": 2}, {"n": 162, "q": "If the dimensions of a square change in such a manner that the area remains constant, what must happen to the other side if one side will be increased by 1/4 of itself?", "o": ["it decreases by 1/5", "it decreases by 1/4", "it decreases by 1/3", "it decreases by 1/2", "none of the above"], "a": 0}, {"n": 163, "q": ". If x - 3 = y, then (y - x )³ = _____ ?", "o": ["9", "-27", "27", "81", "cannot be determined"], "a": 1}, {"n": 164, "q": "0.75 is to ¾ as 0.8 is to ______", "o": ["2/3", "4/5", "5/6", "6/7", "3/5"], "a": 1}, {"n": 165, "q": "75% is to 1/2 as 45% is to ______", "o": ["3/11", "3/10", "3/4", "2/3", "3/5"], "a": 1}, {"n": 166, "q": "0.25 is to 0.125 as to 1.25 is to ________", "o": ["0.625", "1.125", "1.625", "2.125", "6.250"], "a": 0}, {"n": 167, "q": "2 is to 50 as 3.2 is to _________", "o": ["60", "70", "80", "90", "1"], "a": 2}, {"n": 168, "q": "14 is to 28 as 5 is to _________", "o": ["7", "8", "9", "10", "15"], "a": 3}, {"n": 169, "q": "4 × 8 + 12/4 - 8/2 =", "o": ["32", "31", "35", "39", "30"], "a": 1}, {"n": 170, "q": "483.43 + 123.334 + 31.5544 + 444.4 =", "o": ["182.7184", "1082.7184", "1082.4468", "1082.7814", "1988.5678"], "a": 1}, {"n": 171, "q": "Which is the greatest?", "o": ["5/12", "17/33", "52/80", "18/42", "50/70"], "a": 4}, {"n": 172, "q": "44 is 80% of what number?", "o": ["50", "60", "54", "55", "70"], "a": 3}, {"n": 173, "q": "18+ 3 × 3 + (54/3+ -68/-4) =", "o": ["62", "64", "26", "333", "330"], "a": 0}, {"n": 174, "q": "There are 3 numbers whose sum is 54; one number is double and triple times greater than the other numbers, what are those numbers?", "o": ["10, 20, 34", "9, 15, 30", "8, 16, 30", "9, 18, 27", "7, 14, 21"], "a": 3}, {"n": 175, "q": "At 6:30 am, Jeany told Margarette that she found Blessy 15 and ¼ hours ago, at what time Jeany found Blessy?", "o": ["9:25 pm", "6:30pm", "5:25pm", "3:25pm", "3:15pm"], "a": 4}, {"n": 176, "q": ". If 3 siomai cost P 15 pesos, how much if Kenneth buy 12 siomais.", "o": ["55", "45", "65", "60", "80"], "a": 3}, {"n": 177, "q": "What number when increased by 74 percent of itself will equal to 80?", "o": ["43", "42", "44", "54", "46"], "a": 4}, {"n": 178, "q": "What is the smallest positive number which, when you divided by 3, 4 or 5, will leave a remainder of 2?", "o": ["42", "22", "62", "122", "102"], "a": 2}, {"n": 179, "q": "Which of the following numbers is represented by the prime factors 2 × 3 × 7?", "o": ["21", "42", "84", "237", "none of these"], "a": 1}, {"n": 180, "q": "Which of the following numbers is divisible by 6?", "o": ["232", "341", "546", "903", "none of these"], "a": 2}, {"n": 181, "q": "In a room, there are 9 boys and 12 girls. The ratio of girls to boys is ___", "o": ["9 : 24", "3 : 4", "4 : 3", "1 : 2"], "a": 2}, {"n": 182, "q": "A pet store has 8 cats, 12 dogs, and 3 rabbits. The ratio 8:23 compares", "o": ["dogs to cats", "cats to dogs", "rabbits to cats", "cats to all animals"], "a": 3}, {"n": 183, "q": "Ratio of 750m and 3km is ____", "o": ["3 : 7", "3 : 5", "2 : 7", "1 : 4"], "a": 3}, {"n": 184, "q": "The ratio of two sides of a parallelogram is 4 : 3. If its perimeter is 56 cm, find the lengths of its sides.", "o": ["14cm, 13cm", "16cm, 12cm", "18cm, 15cm", "none of the above", "30cm, 26cm"], "a": 1}, {"n": 185, "q": "Four consecutive integers have a mean of 9.5. What is the largest of these integers?", "o": ["38", "10", "11", "14", "19"], "a": 2}, {"n": 186, "q": "A baseball pitcher won 80% of the games he pitched. If he pitched 35 ballgames, how many games did he win?", "o": ["70", "28", "43", "35", "none of the above"], "a": 1}, {"n": 187, "q": "Jerry, an electrician, worked 9 months out of the year. What percent of the year did he work?", "o": ["9%", "60%", "75%", "90%", "none of the above"], "a": 2}, {"n": 188, "q": "There are 40 students in a class. Sixteen of those students are boys. What percent of the class are girls?", "o": ["60%", "40%", "43%", "50%", "none of the above"], "a": 0}, {"n": 189, "q": "Analie took a math test and got 48 correct and 12 incorrect answers. What was the percentage of correct answers?", "o": ["25%", "75%", "20%", "80%", "none of the above"], "a": 3}, {"n": 190, "q": "120 is what percent of 48?", "o": ["2.5%", "250%", "25%", "40%"], "a": 1}, {"n": 191, "q": "120% of what number is 72?", "o": ["144", "600", "14,400", "60"], "a": 3}, {"n": 192, "q": "10% of 300 is what number?", "o": ["3", "0.3", "30", "300"], "a": 2}, {"n": 193, "q": "Two and one-half percent of what number is 88?", "o": ["3520", "35,200", "2.2", "352"], "a": 0}, {"n": 194, "q": "95% of people in my street have a car. There are 160 people in my street. How many do not have a car?", "o": ["8", "92", "152", "75", "80"], "a": 0}, {"n": 196, "q": "40 % of 5 is equal to", "o": ["2", "20", "0.2", "0.02", "none of these"], "a": 0}, {"n": 197, "q": "In a shipment of computers, 2/25 of the computers are defective. What is the ratio of defective to non defective computers?", "o": ["2/25", "2/23", "25/2", "23/2", "none of these"], "a": 1}, {"n": 198, "q": "Which of the following is divisible (with no remainder) by 6?", "o": ["856247", "625874", "147414", "235465", "142546"], "a": 2}, {"n": 199, "q": "A solution is made of water and pure orange. If 80% of the solution is water, how many liters of pure orange are in 25 liters of this solution?", "o": ["10", "15", "25", "5", "20"], "a": 3}, {"n": 200, "q": "What is the average of 7/8 and 3/4?", "o": ["13/8", "5/6", "5/3", "5/12", "13/16"], "a": 4}, {"n": 201, "q": "If -6/(a - 3) = 3/(a + 2), then a = ?", "o": ["-1/3", "1/3", "1/2", "-1/2", "3"], "a": 0}, {"n": 202, "q": "A company makes a profit equal to 25% of its sales. The profit is shared equally among the 4 owners of the company. If the company generates sales of $2,000,000, how much money does each one of the owners get?", "o": ["125,000", "312,500", "500,000", "1,250,000", "375,000"], "a": 0}, {"n": 203, "q": "If a = 3, then 2 / (1/7 + 1/a) = ?", "o": ["21/5", "21/10", "20", "10", "5"], "a": 0}, {"n": 204, "q": "If (a + b)^2 = 25 and (a - b)^2 = 45, then a^2 + b^2 = ?", "o": ["35", "70", "625", "2025", "4900"], "a": 0}, {"n": 205, "q": "10-2+4×2-(10÷5×2) = ?", "o": ["12", "15", "-1", "20", "23"], "a": 0}, {"n": 206, "q": "The population of a certain town is 5,000.If it increases 5% each year, what will be the approximate population at the end of 10 years?", "o": ["7500", "12500", "14250", "8144", "5250"], "a": 3}, {"n": 207, "q": "Gary decided to cycle to his friend's house at a speed of 6kph and the journey took 30 minutes. How far did Gary cycle?", "o": ["18 km", "3 km", "6 km", "12 km", "none of these"], "a": 1}, {"n": 208, "q": "A boat takes 4/5 as much time to travel downstream as to its return. If the rate of the river's current is 6 kph, what is the rate of the boat in still water?", "o": ["30 kph", "54 kph", "84 kph", "60 kph", "none of these"], "a": 1}, {"n": 209, "q": "If a car travels at 60 kph, what is the distance it travels in 30 minutes?", "o": ["2 km", "30 km", "120 km", "1,800 km", "none of these"], "a": 1}, {"n": 210, "q": "A car travels 120 miles at a speed of 40 miles per hour and makes a return trip at a speed of 60 miles per hour. What is its average speed, in miles per hour, of the police car?", "o": ["42", "44", "46", "48", "none of these ================= END ================= READ these INSPIRATIONAL QUOTES... I hope these words will somehow help motivate you to study, review, pass all exams and be successful in life... and become an inspiration to others... \"Success is no accident. It is hard work, perseverance, learning, studying, sacrifice and most of all, love of what you are doing or learning to do.\" \"If you have a dream, you can spend a lifetime studying, planning, and getting ready for it. What you should be doing is getting started.\" \"Success is not final, failure is not fatal; it is the courage to continue that counts.\" \"Allow yourself to be a beginner. No one starts off being excellent.\" \"Be stronger than your excuses.\" \"If you really want to do something, you'll find a way. If you don't, you'll find an excuse.\" \"The earlier you start working on something, the earlier you will see results.\" \"If we wait until we're ready, we'll be waiting for the rest of our lives.\" \"You don't have to be great to start. But you have to start to be great.\" \"The distance between dreams and reality is called action.\" \"Never let small minds convince you that your dreams are too big.\" \"You were born to win. But to be a winner, you must plan to win, prepare to win and expect to win.\" \"Success isn't always about greatness. It's about consistency. Consistent hard work leads to success. Greatness will come.\" \"Impossible is not a fact. It is an opinion.\" \"More people would learn from their mistakes if they weren't so busy denying them.\" \"FEAR - Forget Everything And Run… or… Face Everything And Rise. It's your choice.\" \"Behind every successful person, there are a lot of unsuccessful years.\" \"When you talk, you are only repeating what you already know. But if you listen, you may learn something new.\" \"Push yourself because no one else is going to do it for you.\" \"The beautiful thing about learning is that no one can take it away from you.\" \"You are never too old to set another goal or to dream a new dream.\" \"Once you have learned to ask questions - relevant and appropriate and substantial questions - you have learned how to learn, and no one can keep you from learning whatever you want or need to know.\" \"Education is the passport to the future, for tomorrow belongs to those who prepare for it today.\" \"When one door closes, another opens. But we often look so long and so regretfully upon the closed-door that we do not see the one which has opened for us.\" \"Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.\" \"There are no secrets to success. It is the result of PREPARATION, hard work learning from failure.\" \"Success is the sum of small efforts, repeated day in and day out.\" \"Trust in the LORD with all your heart and lean not on your own understanding.\" Pro 3:5 \"Take delight in the LORD, and he will give you your heart's desires.\" Psalm 37:4 \"Don't be afraid, for I am with you. Don't be discouraged, for I am your God. I will strengthen you and help you. I will hold you up with my victorious right hand.\" Isaiah 41:10 \"Seek first the kingdom of God and His righteousness, and all these things will be added unto you.\" Mt 6:33 \"When educating the minds of your youth, we must not forget to educate their hearts.\" Learning is a lifelong process. It does not stop after you graduate or landed a job of your dream. In fact, the more you learn new things, the more you realized how little you already know. Education can change lives. In fact, if you are educated, you can't only make your life better, but you can also improve and touch the lives of other people. I wish you all good luck and success... God bless to all of you... Sincerely helping you without asking in return, Leonalyn Mutia-Tayone"], "a": 3}], "clerical": [{"n": 111, "q": "This is a type of document issued by a seller to a buyer relating to a sale transaction and indicating the products, quantities and prices sold to the buyer.", "o": ["Check voucher", "Purchase order", "Delivery receipt", "Sales invoice"], "a": 3}, {"n": 112, "q": "Which of the following is not a usual document used in a sales company?", "o": ["Form 137", "Delivery receipt", "Sales invoice", "Purchase order"], "a": 0}, {"n": 113, "q": "One of the responsibilities of a clerical job is answering and tending phone calls. Which is the best way to answer a phone call in a company?", "o": ["Say \"Hello,\" and wait for the caller to speak.", "Run and get a pen and notebook then pick up the phone.", "Answer the phone politely and give your department or company name.", "Wait for fellow employees to answer the phone."], "a": 2}, {"n": 114, "q": "An example of a hard copy document is:", "o": ["PDF file letter", "Company email message", "A business letter saved in USB", "Business letter in a paper"], "a": 3}, {"n": 115, "q": "What does a CC means in an email message?", "o": ["Copy sent", "Copy furnished", "Copy cat", "Client copy"], "a": 1}, {"n": 116, "q": "Which computer program should you go if you want to email a company?", "o": ["Word", "Excel", "Outlook", "Powerpoint"], "a": 2}, {"n": 117, "q": "This is a telephonic transmission of scanned documents of texts and images to a telephone number connected to a printer.", "o": ["Photocopying Machine", "Fax Machine", "Typewriter", "Inkjet Printer ."], "a": 1}, {"n": 118, "q": "The chief financial officer is responsible for the financial matters and financial management of a corporation, she is also known as the _______.", "o": ["Auditor", "Treasurer", "Chief Executive Officer", "Manager ."], "a": 1}, {"n": 119, "q": "Which department of a company is responsible for cash register operations and payment processing?", "o": ["Cashier", "Billing", "Accounting", "Budget"], "a": 0}, {"n": 120, "q": "Your boss asked you to send her a soft copy of your latest résumé. An example of a soft copy is:", "o": ["A print out copy usually in a paper", "Original copy written in a paper", "A copy saved in a computer and sent through email", "A copy from a Xerox machine Events"], "a": 2}], "constitution": [{"n": 121, "q": "What is the national language of the Philippines according to 1987 Phil Constitution article XIV section 6?", "o": ["Pilipino", "Tagalog", "Filipino", "English", "Both B & C"], "a": 2}, {"n": 122, "q": "What do you call the introductory part of the Constitution?", "o": ["Preface", "Preamble", "Amendments", "Bill of Rights"], "a": 1}, {"n": 123, "q": "What form of government does the Philippines adopt?", "o": ["Republican", "Democratic", "Neither a nor b", "Both a and b"], "a": 3}, {"n": 124, "q": "Who among the following may issue a warrant of arrest or a search warrant?", "o": ["A senator", "A congressman", "A judge", "The President"], "a": 2}, {"n": 125, "q": "A foreigner may acquire Filipino citizenship through", "o": ["Naturalization", "Rebirth", "Extradition", "Visa application"], "a": 0}, {"n": 126, "q": "What is regarded by the State as a \"primary social economic force?\"", "o": ["education", "labor", "trade", "commerce"], "a": 1}, {"n": 127, "q": "According to Article III, Section 15 of the Constitution, the writ of habeas corpus may be suspended in times of rebellion or what?", "o": ["martial law", "terrorism", "war", "invasion"], "a": 3}, {"n": 128, "q": "The Lower Chamber of the Congress of the Philippines is known by what name?", "o": ["Senate", "Congressional Lower Chamber", "National Assembly", "House of Representatives"], "a": 3}, {"n": 129, "q": "A Member of either house of Congress may be expelled by their fellow Members. For a Member to be expelled, how much of the total number of Members of a house must concur with the expulsion?", "o": ["two-thirds", "majority c three-fourths", "nine-tenths"], "a": 0}, {"n": 130, "q": "If a President wishes to veto a bill, he/she must communicate it within a certain span of time, otherwise the bill will become a law. How long is this span of time?", "o": ["3 weeks", "48 days", "60 days", "30 days"], "a": 3}, {"n": 131, "q": "At present, how many percent of the population of the Philippines are aliens?", "o": ["30%", "40%", "70%", "25%", "50%"], "a": 0}, {"n": 132, "q": "What project of the DENR that includes the protection of Industrial pollution of our Environment?", "o": ["Bantay Kalikasan", "Ecological Watch", "Bantay Ilog", "Solid Waste Management", "Bantay Dagat"], "a": 3}, {"n": 133, "q": "What government agency thus the status of government employee in the free voluntary services belong?", "o": ["Secretary", "Municipal", "Barangay", "Regional", "National"], "a": 2}, {"n": 134, "q": "Which is not a ground for Impeachment of the Pres., Vice-Pres., Ombudsman, and Senator?", "o": ["graft and corruption", "sexual harassment", "grave abuse of the authority", "against the Family if the child scolded by the parents", "Other crimes"], "a": 3}, {"n": 135, "q": "What is the ground for impeachment of the Pres., Vice-Pres., Ombudsman, and Senator?", "o": ["sexual harassment", "heinous crime", "grave abuse of the authority", "graft and corruption", "culpable violation of the Constitution"], "a": 4}]};
+const GROUPS = [["English", [["vocabulary", "English Vocabulary"], ["idiomatic", "Idiomatic Expressions"], ["analogy", "Analogy"]]], ["Reading", [["reading", "Reading Comprehension"], ["paragraph_org", "Paragraph Organization"]]], ["Mathematics", [["numerical", "Numerical Reasoning"]]], ["Clerical", [["clerical", "Clerical Operations"]]], ["Civics / General Information", [["constitution", "Constitution & General Information"]]]];
+const LS_KEY = "csc2019_progress_v1";
+const LEVELS = {
+  pro: { name: 'Professional', items: 170, minutes: 190 },
+  sub: { name: 'Subprofessional', items: 165, minutes: 160 }
+};
+const ALL_KEYS = [];
+for (const g of GROUPS) for (const it of g[1]) ALL_KEYS.push(it[0]);
+const SECNAMES = {};
+for (const g of GROUPS) for (const it of g[1]) SECNAMES[it[0]] = it[1];
+
+let progress = {};
+try { progress = JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch (e) {}
+
+let quiz = { mode: 'home', flat: [], idx: 0, done: false, ans: null,
+             timerOn: false, timeLeft: 0, timeTotal: 0, timeUsed: 0, timedOut: false,
+             timerId: null, runAnswered: {}, label: '' };
+let setup = { level: 'pro', sections: ALL_KEYS.slice(), timer: 'actual' };
+let toastTimer = null;
+
+function currentTheme() { return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
+function applyThemeBtn() {
+  const b = document.getElementById('themeBtn');
+  if (b) b.textContent = currentTheme() === 'dark' ? 'Light' : 'Dark';
+}
+function toggleTheme() {
+  const next = currentTheme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('csc2026_theme', next); } catch (e) {}
+  applyThemeBtn();
+}
+applyThemeBtn();
+
+function secStat(key) {
+  const p = progress[key] || {};
+  const total = DATA[key].length;
+  const answered = Object.keys(p).length;
+  const correct = Object.values(p).filter(v => v === 1).length;
+  return { total, answered, correct };
+}
+function saveProgress() { localStorage.setItem(LS_KEY, JSON.stringify(progress)); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s == null ? '' : String(s);
+  return d.innerHTML;
+}
+function fmt(sec) {
+  const s = Math.max(0, Math.round(sec));
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+  const mm = String(m).padStart(2, '0'), ss = String(x).padStart(2, '0');
+  return h ? h + ':' + mm + ':' + ss : mm + ':' + ss;
+}
+function fmtH(min) {
+  if (min < 60) return min + 'm';
+  const h = Math.floor(min / 60), m = min % 60;
+  return m ? h + 'h ' + m + 'm' : h + 'h';
+}
+
+function render() {
+  const app = document.getElementById('app');
+  if (quiz.mode === 'home') app.innerHTML = homeHTML();
+  else if (quiz.mode === 'mock-setup') app.innerHTML = mockSetupHTML();
+  else if (quiz.mode === 'summary' || quiz.done) app.innerHTML = summaryHTML();
+  else app.innerHTML = quizHTML();
+  renderTimerBadge();
+}
+
+/* ---------- HOME ---------- */
+function homeHTML() {
+  let totalQ = 0, answeredQ = 0;
+  for (const k in DATA) { const st = secStat(k); totalQ += st.total; answeredQ += st.answered; }
+  let h = '<header><div><h1>CSC Civil Service Exam Reviewer 2026 - 2019 Exam</h1>' +
+          '<div class="sub">Offline interactive quiz &middot; ' + totalQ + ' questions &middot; passing rating 80%</div></div></header>';
+  h += '<div class="mockcard" onclick="startMock()">' +
+       '<div><div class="name">Mock Exam</div>' +
+       '<div class="cnt">Timed practice at the real CSE pace (170 items / 3h10m) or with extra time</div></div>' +
+       '<div class="play">&#9654;</div></div>';
+  let inner = '';
+  for (const [gname, items] of GROUPS) {
+    inner += '<div class="group">' + esc(gname) + '</div>';
+    for (const [key, label] of items) {
+      const st = secStat(key);
+      const pct = st.total ? Math.round(st.answered / st.total * 100) : 0;
+      const done = st.answered === st.total;
+      inner += '<div class="card" onclick="startSection(' + JSON.stringify(key) + ')">' +
+        '<div style="flex:1"><div class="name">' + esc(label) + '</div>' +
+        '<div class="cnt">' + st.answered + '/' + st.total + ' answered &middot; ' + st.correct + ' correct</div>' +
+        '<div class="bar"><div style="width:' + pct + '%"></div></div></div>' +
+        '<div class="pct' + (done ? ' done' : '') + '">' + pct + '%</div></div>';
+    }
+  }
+  h += inner;
+  h += '<div class="foot">' + answeredQ + '/' + totalQ + ' questions attempted across all sections &middot; ' +
+       '<a href="javascript:void(0)" onclick="resetAll(event)" style="color:var(--bad)">Reset all progress</a></div>';
+  return h;
+}
+function resetAll(ev) {
+  if (ev) ev.stopPropagation();
+  if (!confirm('Reset all progress?')) return;
+  progress = {}; saveProgress(); render();
+}
+function startSection(key) {
+  stopTimer();
+  const flat = DATA[key].map((_, i) => ({ sec: key, idx: i }));
+  quiz = { mode: 'quiz', flat: flat, idx: 0, done: false, ans: null,
+           timerOn: false, timeLeft: 0, timeTotal: 0, timeUsed: 0, timedOut: false,
+           timerId: null, runAnswered: {}, label: SECNAMES[key] };
+  render();
+}
+
+/* ---------- MOCK SETUP ---------- */
+function startMock() {
+  stopTimer();
+  quiz = { mode: 'mock-setup', flat: [], idx: 0, done: false, ans: null,
+           timerOn: false, timeLeft: 0, timeTotal: 0, timeUsed: 0, timedOut: false,
+           timerId: null, runAnswered: {}, label: 'Mock Exam' };
+  render();
+}
+function selectedCount() { return setup.sections.reduce((s, k) => s + DATA[k].length, 0); }
+function mockSize() { return Math.min(LEVELS[setup.level].items, selectedCount()); }
+function examMinutes(orderLen) { return Math.round(LEVELS[setup.level].minutes * orderLen / LEVELS[setup.level].items); }
+function mockSetupHTML() {
+  const n = mockSize();
+  const actual = examMinutes(n);
+  const beginner = Math.round(actual * 1.5);
+  const estLine = setup.timer === 'none' ? 'no timer (untimed practice)'
+    : setup.timer === 'actual'
+      ? 'time &asymp; <b>' + fmtH(actual) + '</b> &mdash; the real ' + LEVELS[setup.level].name + ' exam length'
+      : 'time &asymp; <b>' + fmtH(beginner) + '</b> (actual ' + fmtH(actual) + ' + 50%)';
+  let secs = '';
+  for (const [gname, items] of GROUPS) {
+    secs += '<div class="group">' + esc(gname) + '</div>';
+    for (const [key, label] of items) {
+      const st = secStat(key);
+      secs += '<label class="setrow"><input type="checkbox" onchange="toggleSec(' + JSON.stringify(key) + ', this.checked)" ' +
+              (setup.sections.includes(key) ? 'checked' : '') + '>' +
+              '<span class="name">' + esc(label) + '</span><span class="cnt">' + st.total + ' q</span></label>';
+    }
+  }
+  return '<div class="topline"><button class="btn ghost2" onclick="backHome()">&#9776; Home</button>' +
+         '<span class="spacer"></span><span class="badge">Mock Exam Setup</span></div>' +
+         '<div class="group">Level &middot; sets the real exam length and time</div>' +
+         '<label class="setrow"><input type="radio" name="lvl" value="pro" onchange="setLevel(this.value)" ' + (setup.level === 'pro' ? 'checked' : '') + '>' +
+         '<span class="name">Professional</span><span class="cnt">170 items &middot; 3h 10m</span></label>' +
+         '<label class="setrow"><input type="radio" name="lvl" value="sub" onchange="setLevel(this.value)" ' + (setup.level === 'sub' ? 'checked' : '') + '>' +
+         '<span class="name">Subprofessional</span><span class="cnt">165 items &middot; 2h 40m</span></label>' +
+         '<div class="group">Timer</div>' +
+         '<label class="setrow"><input type="radio" name="tmr" value="actual" onchange="setTimer(this.value)" ' + (setup.timer === 'actual' ? 'checked' : '') + '>' +
+         '<span class="name">Actual CSE timing</span><span class="cnt">real exam time &middot; 170 items in 3h 10m</span></label>' +
+         '<label class="setrow"><input type="radio" name="tmr" value="beginner" onchange="setTimer(this.value)" ' + (setup.timer === 'beginner' ? 'checked' : '') + '>' +
+         '<span class="name">Beginner &middot; more time</span><span class="cnt">50% extra time than the actual exam</span></label>' +
+         '<label class="setrow"><input type="radio" name="tmr" value="none" onchange="setTimer(this.value)" ' + (setup.timer === 'none' ? 'checked' : '') + '>' +
+         '<span class="name">No timer</span><span class="cnt">untimed practice</span></label>' +
+         '<div class="group">Include sections</div>' + secs +
+         '<div class="est">' + n + ' questions &middot; ' + estLine + '</div>' +
+         '<div class="nav"><button class="btn" ' + (n === 0 ? 'disabled' : 'onclick="beginMock()"') + '>Start Mock Exam &rarr;</button></div>';
+}
+function toggleSec(k, on) {
+  if (on) { if (!setup.sections.includes(k)) setup.sections.push(k); }
+  else { setup.sections = setup.sections.filter(x => x !== k); }
+  render();
+}
+function setLevel(l) { setup.level = l; render(); }
+function setTimer(t) { setup.timer = t; render(); }
+function backHome() { stopTimer(); quiz.mode = 'home'; render(); }
+function buildMockOrder() {
+  const target = LEVELS[setup.level].items;
+  const avail = {}, order = [];
+  let total = 0;
+  for (const k of setup.sections) { avail[k] = DATA[k].length; total += avail[k]; }
+  const take = Math.min(target, total);
+  if (!take) return order;
+  const alloc = {};
+  let sum = 0;
+  const fracs = [];
+  for (const k of setup.sections) {
+    const f = take * avail[k] / total;
+    alloc[k] = Math.min(Math.floor(f), avail[k]);
+    sum += alloc[k];
+    fracs.push([k, f - alloc[k]]);
+  }
+  fracs.sort((a, b) => b[1] - a[1]);
+  let i = 0;
+  while (sum < take) {
+    const k = fracs[i % fracs.length][0];
+    if (alloc[k] < avail[k]) { alloc[k]++; sum++; }
+    i++;
+  }
+  for (const g of GROUPS) for (const it of g[1]) {
+    const k = it[0];
+    if (!setup.sections.includes(k)) continue;
+    const pool = DATA[k].map((_, p) => p);
+    for (let c = 0; c < alloc[k]; c++) {
+      const p = Math.floor(Math.random() * pool.length);
+      order.push({ sec: k, idx: pool[p] });
+      pool.splice(p, 1);
+    }
+  }
+  return order;
+}
+function beginMock() {
+  const order = buildMockOrder();
+  if (!order.length) return;
+  quiz = { mode: 'quiz', flat: order, idx: 0, done: false, ans: null,
+           timerOn: false, timeLeft: 0, timeTotal: 0, timeUsed: 0, timedOut: false,
+           timerId: null, runAnswered: {}, label: 'Mock Exam' };
+  if (setup.timer !== 'none') {
+    let mins = examMinutes(order.length);
+    if (setup.timer === 'beginner') mins = Math.round(mins * 1.5);
+    const secs = mins * 60;
+    quiz.timerOn = true; quiz.timeLeft = secs; quiz.timeTotal = secs;
+  }
+  render();
+  if (quiz.timerOn) quiz.timerId = setInterval(tick, 1000);
+}
+
+/* ---------- QUIZ ---------- */
+function currentQ() { const e = quiz.flat[quiz.idx]; return DATA[e.sec][e.idx]; }
+function flatStat() {
+  let answered = 0, correct = 0;
+  for (const e of quiz.flat) {
+    const p = (progress[e.sec] || {})[DATA[e.sec][e.idx].n];
+    if (p !== undefined) { answered++; if (p === 1) correct++; }
+  }
+  return { total: quiz.flat.length, answered: answered, correct: correct };
+}
+function quizHTML() {
+  const q = currentQ();
+  const st = flatStat();
+  const total = st.total;
+  const pos = quiz.idx + 1;
+  const isMock = quiz.label === 'Mock Exam';
+  const e = quiz.flat[quiz.idx];
+  const curSec = isMock ? 'Mock Exam &middot; ' + SECNAMES[e.sec] : quiz.label;
+  const opts = q.o.map((o, i) => {
+    const letter = String.fromCharCode(65 + i);
+    let cls = 'opt', disp = esc(o), mark = '';
+    if (quiz.ans !== null) {
+      if (i === q.a) { cls += ' reveal'; mark = ' &#10003;'; }
+      else if (i === quiz.ans) { cls += ' wrong'; mark = ' &#10007;'; }
+    }
+    return '<button class="' + cls + '" ' + (quiz.ans !== null ? 'disabled' : 'onclick="answer(' + i + ')")') + '>' +
+           '<span class="letter">' + letter + '.</span>' + disp + mark + '</button>';
+  }).join('');
+  const passage = q.p ? '<div class="passage">' + esc(q.p) + '</div>' : '';
+  const fb = quiz.ans !== null
+    ? (quiz.ans === q.a
+        ? '<div class="fb good">&#10003; Correct!</div>'
+        : '<div class="fb bad">&#10007; Incorrect &mdash; correct answer: ' + String.fromCharCode(65 + q.a) + '.</div>')
+    : '';
+  const timer = quiz.timerOn
+    ? '<span class="timer" id="timer">' + fmt(quiz.timeLeft) + '</span>'
+    : '';
+  const nav = '<div class="nav">' +
+    '<button class="btn ghost2" ' + (pos <= 1 ? 'disabled' : 'onclick="go(-1)"') + '>&#8592; Prev</button>' +
+    '<button class="btn ghost2" onclick="shuffle()">Shuffle</button>' +
+    '<span class="spacer"></span>' +
+    (pos >= total
+      ? '<button class="btn" onclick="finish()">Finish &rarr;</button>'
+      : '<button class="btn" onclick="go(1)">Next &rarr;</button>') +
+    '</div>';
+  return '<div class="topline"><button class="btn ghost2" onclick="quit()">&#9776; Home</button>' +
+         '<span class="spacer"></span>' + timer + '</div>' +
+         '<div class="card" style="cursor:default"><div class="qmeta">' +
+         '<span class="badge gray">' + esc(curSec) + '</span>' +
+         '<span class="badge">Q' + esc(q.n) + '</span>' +
+         '<span class="scoreline">' + pos + ' of ' + total + ' &middot; ' + st.correct + '/' + st.answered + ' correct</span></div></div>' +
+         passage +
+         '<div class="qtext">' + esc(q.q) + '</div>' + opts + fb + nav;
+}
+function answer(i) {
+  const q = currentQ();
+  if (quiz.ans !== null) return;
+  quiz.ans = i;
+  quiz.runAnswered[quiz.idx] = true;
+  const e = quiz.flat[quiz.idx];
+  const key = e.sec;
+  const cur = progress[key] || {};
+  cur[q.n] = (i === q.a) ? 1 : 0;
+  progress[key] = cur;
+  saveProgress();
+  render();
+}
+function go(d) { quiz.ans = null; quiz.idx += d; render(); }
+function shuffle() {
+  quiz.ans = null;
+  for (let i = quiz.flat.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = quiz.flat[i]; quiz.flat[i] = quiz.flat[j]; quiz.flat[j] = tmp;
+  }
+  quiz.idx = 0;
+  render();
+  showToast('Order shuffled');
+}
+function quit() { stopTimer(); quiz.mode = 'home'; render(); }
+function finish() { stopTimer(); quiz.timeUsed = quiz.timeTotal - quiz.timeLeft; quiz.done = true; render(); }
+function retry() {
+  stopTimer();
+  quiz.done = false; quiz.ans = null; quiz.idx = 0; quiz.runAnswered = {};
+  if (quiz.timeTotal > 0) { quiz.timerOn = true; quiz.timeLeft = quiz.timeTotal; quiz.timeUsed = 0; }
+  render();
+  if (quiz.timerOn && !quiz.timerId) quiz.timerId = setInterval(tick, 1000);
+}
+function tick() {
+  if (!quiz.timerOn) return;
+  quiz.timeLeft -= 1;
+  if (quiz.timeLeft <= 0) { quiz.timeLeft = 0; finish(); return; }
+  renderTimerBadge();
+}
+function renderTimerBadge() {
+  const el = document.getElementById('timer');
+  if (!el) return;
+  el.textContent = fmt(quiz.timeLeft);
+  el.classList.toggle('urgent', quiz.timeLeft <= 300);
+}
+function stopTimer() {
+  if (quiz.timerId) { clearInterval(quiz.timerId); quiz.timerId = null; }
+}
+
+/* ---------- SUMMARY ---------- */
+function summaryHTML() {
+  const total = quiz.flat.length;
+  let answered = 0, correct = 0, unanswered = 0;
+  const wrong = [];
+  const isMock = quiz.label === 'Mock Exam';
+  for (let i = 0; i < total; i++) {
+    if (!quiz.runAnswered[i]) { unanswered++; continue; }
+    const e = quiz.flat[i];
+    const q = DATA[e.sec][e.idx];
+    const p = (progress[e.sec] || {})[q.n];
+    answered++;
+    if (p === 1) correct++;
+    else wrong.push({ sec: e.sec, q: q });
+  }
+  const denom = isMock ? total : Math.max(1, answered);
+  const pct = Math.round(correct / denom * 100);
+  const cls = pct >= 80 ? 'good' : pct >= 50 ? 'mid' : 'bad';
+  const pass = pct >= 80;
+  let passbar = '';
+  if (answered > 0 || isMock) {
+    passbar = '<div class="passbar ' + (pass ? 'pass' : 'fail') + '">' +
+      (pass ? '&#127942; Passed &mdash; rating ' + pct + '% (need 80%)' : 'Below the passing rating (80%). Keep reviewing!') + '</div>';
+  }
+  let timeLine = '';
+  if (quiz.timeTotal > 0) {
+    const used = Math.min(quiz.timeUsed, quiz.timeTotal);
+    timeLine = '<div class="scoreline">Time used: ' + fmt(used) + ' / ' + fmt(quiz.timeTotal) + (quiz.timeUsed < quiz.timeTotal ? '' : ' &middot; time up') + '</div>';
+  }
+  let review = '';
+  if (wrong.length) {
+    review = '<div class="group">Review incorrect answers</div>';
+    for (const w of wrong.slice(0, 50)) {
+      const q = w.q;
+      const letters = q.o.map((_, i) => String.fromCharCode(65 + i));
+      review += '<div class="review"><div class="rq">' + esc(SECNAMES[w.sec]) + ' &middot; Q' + q.n + '. ' + esc(q.q) + '</div>' +
+        '<div class="ra">&#10003; ' + letters[q.a] + '. ' + esc(q.o[q.a]) + '</div></div>';
+    }
+    if (wrong.length > 50) review += '<div class="small">...and ' + (wrong.length - 50) + ' more.</div>';
+  } else if (answered > 0) {
+    review = '<div class="fb good" style="margin-top:14px">&#127942; Perfect score! Great job.</div>';
+  }
+  const notes = unanswered ? '<div class="small" style="margin-top:8px">' + unanswered + ' unanswered' + (isMock ? ' (counted as wrong, like the real exam)' : '') + '</div>' : '';
+  return '<div class="topline"><button class="btn ghost2" onclick="quit()">&#9776; Home</button>' +
+         '<span class="spacer"></span>' +
+         '<button class="btn ghost2" onclick="retry()">Retry</button></div>' +
+         '<div class="summary-box"><div class="big ' + cls + '">' + pct + '%</div>' +
+         '<div class="scoreline">' + correct + ' correct out of ' + denom + (isMock ? ' items' : ' answered') + '</div>' +
+         timeLine + passbar + notes + '</div>' +
+         review;
+}
+
+render();
+</script>
+</body>
+</html>
