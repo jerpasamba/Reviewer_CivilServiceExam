@@ -1,5 +1,6 @@
 # source PDFs (copyrighted review materials)
 *.pdf
+!ilide.info-civil-service-exam-reviewer-for-2026-pr_9267b51c57b00c6302380d841a15e459.pdf
 
 # python
 __pycache__/
