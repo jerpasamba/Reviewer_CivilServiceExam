@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSC Civil Service Exam Reviewer</title>
+<style>
+  :root {
+    --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3;
+    --muted: #8b949e; --accent: #58a6ff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  main { max-width: 640px; width: 100%; padding: 24px; }
+  h1 { font-size: 26px; margin: 0 0 6px; }
+  p.sub { color: var(--muted); margin: 0 0 24px; }
+  a.card {
+    display: block; text-decoration: none; color: var(--text);
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 20px; margin-bottom: 12px; transition: border-color .15s, transform .15s;
+  }
+  a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  a.card .name { font-size: 17px; font-weight: 600; color: var(--accent); }
+  a.card .desc { color: var(--muted); font-size: 14px; margin-top: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>CSC Civil Service Exam Reviewer</h1>
+  <p class="sub">Free browser-based reviewer for the Philippine Civil Service Examination.</p>
+
+  <a class="card" href="quiz.html">
+    <div class="name">Full Reviewer 2026</div>
+    <div class="desc">All topics combined &middot; 681 items</div>
+  </a>
+  <a class="card" href="quiz-2018.html">
+    <div class="name">CSE 2018 Exam Set</div>
+    <div class="desc">Actual 2018 professional set &middot; 189 items</div>
+  </a>
+  <a class="card" href="quiz-2019.html">
+    <div class="name">CSE 2019 Exam Set</div>
+    <div class="desc">Actual 2019 professional set &middot; 193 items</div>
+  </a>
+  <a class="card" href="quiz-2020.html">
+    <div class="name">CSE 2020 Exam Set</div>
+    <div class="desc">Actual 2020 professional set &middot; 170 items</div>
+  </a>
+</main>
+</body>
+</html>
