@@ -33,7 +33,7 @@ A static, browser-based review app for the Philippine **Civil Service Examinatio
 
 ## Getting started
 
-- **Online:** open <https://watashiii5.github.io/Reviewer_CivilServiceExam/>
+- **Online:** open <https://jerpasamba.github.io/Reviewer_CivilServiceExam/>
 - **Locally:** download any of the `quiz*.html` files and double-click to open in your browser. No internet needed.
 
 ## How it works
